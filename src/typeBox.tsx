@@ -37,9 +37,9 @@ function TypeBox() {
 
   return (
     <>
+
     <div className=' bg-gradient-to-r from-green-400 to-blue-500 h-screen justify-center items-center w-screen flex flex-col gap-10'>
-    <p className='border-2 border-gray-300 p-2 rounded-lg shadow-xl min-w-80 min-h-10'>{transformString(input)}</p>
-    <input className='outline-none p-2 rounded-lg shadow-xl' onChange={handleInputChange} type="text"
+    <input className='outline-none border-none border-gray-300 px-3 rounded-lg shadow-xl min-w-80 min-h-10 placeholder-white bg-opacity-30 bg-black' onChange={handleInputChange} type="text"
     value={transformString(input)} placeholder='Type here' />
     </div>
     </>
