@@ -1,9 +1,14 @@
 import './App.css'
 import React, {useState} from 'react'
 
-function TypeBox() {
+type TypeBoxProps = {
 
-  const [input, setInput] = useState('')
+  input: string;
+  setInput: React.Dispatch<React.SetStateAction<string>>
+  
+}
+
+function TypeBox({input, setInput}: TypeBoxProps) {
 
   function handleInputChange (event: React.ChangeEvent<HTMLInputElement>) { 
     setInput(event.target.value)
@@ -20,10 +25,7 @@ function TypeBox() {
     let letters: string = input.replace(/[^a-zA-Z]/g, '')
     let hiraKata: string = input.replace(/[a-zA-Z]/g, '')
 
-    console.log("letters", letters)
-
     const char= letters.toLowerCase()
-    console.log(char)
     letters = transformations[char]
   
     // makes unmatching inputs be the same as the input//
@@ -36,13 +38,13 @@ function TypeBox() {
   }
 
   return (
-    <>
-
-    <div className=' bg-gradient-to-r from-green-400 to-blue-500 h-screen justify-center items-center w-screen flex flex-col gap-10'>
-    <input className='outline-none border-none border-gray-300 px-3 rounded-lg shadow-xl min-w-80 min-h-10 placeholder-white bg-opacity-30 bg-black' onChange={handleInputChange} type="text"
-    value={transformString(input)} placeholder='Type here' />
-    </div>
-    </>
+    <input 
+      className='outline-none border-none border-gray-300 px-3 rounded-lg shadow-xl min-w-80 min-h-10 placeholder-white bg-opacity-30 bg-black' 
+      onChange={handleInputChange} 
+      type="text"
+      value={transformString(input)} 
+      placeholder='Type here' 
+    />
   )
 }
 
