@@ -1,31 +1,62 @@
-import React, { useState, useEffect } from 'react'
-import questions from './assets/questions.json'
+import { useState, useEffect } from 'react'
+import questions from './assets/kanken_10k.json'
+
 
 type QuestionBoxProps = {
-  input: string
+  input: string;
+  setInput: React.Dispatch<React.SetStateAction<string>>
 }
 
 type Question = {
   question: string
-  answer: string
+  answer: string[]
   translation: string
 }
 
+const defaultQuestion: Question = {
+  question: '',
+  answer: [],
+  translation: ''
+};
 
 
-function QuestionBox({input}: QuestionBoxProps) {
 
-  const [question, setQuestion] = useState('')
+function QuestionBox({input, setInput}: QuestionBoxProps) {
+
+  const [currentQuestion, setCurrentQuestion] = useState(defaultQuestion)
+
+  function goToNextQuestion() {
+    // don't allow the same question to be asked twice in a row//
+     
+    let nextQuestion = getRandomQuestion()
+    while (nextQuestion === currentQuestion) {
+      nextQuestion = getRandomQuestion()
+    }
+    console.log("nextQuestion", nextQuestion)
+    setInput('')
+    setCurrentQuestion(nextQuestion) 
+  }
+    
+
+    //I need to verify if the input is correct and then change the question//
+    useEffect(() => {
+      console.log('input', input)
+      currentQuestion.answer.forEach((answer) => {
+        if (input === answer) {
+          goToNextQuestion()
+        }
+      })
+    }
+    , [input])
+    
 
   
-
+  //this useeffect has no deppendencies so it only runs once//
   useEffect(() => { 
-    const nextQuestion = getRandomQuestion()
-    console.log(nextQuestion)
-    setQuestion(nextQuestion.question) 
-  
+    goToNextQuestion()
   }, [])
 
+  
    
 
   function getRandomQuestion(): Question {
@@ -39,8 +70,8 @@ function QuestionBox({input}: QuestionBoxProps) {
   return (
 
       <div className=" text-center text-white shadow-lg shadow-blue-500/50 bg-gradient-to-r from-blue-400 to-purple-600 rounded-lg p-3 w-3/4 mx-auto max-w-3xl h-96 flex flex-col justify-center">
-  
-      <p className="w-3/4 mx-auto font-bold  text-9xl">{question}</p>
+      {/* <p>currentQuestion length {currentQuestion.answer.length}</p> */}
+      <p className="w-3/4 mx-auto font-bold  text-9xl">{currentQuestion.question}</p>
       </div>
 
     )
