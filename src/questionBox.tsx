@@ -3,8 +3,10 @@ import questions from './assets/kanken_10k.json'
 
 
 type QuestionBoxProps = {
+  score: number;
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>
+  setScore: React.Dispatch<React.SetStateAction<number>>
 }
 
 type Question = {
@@ -21,7 +23,7 @@ const defaultQuestion: Question = {
 
 
 
-function QuestionBox({input, setInput}: QuestionBoxProps) {
+function QuestionBox({score, setScore, input, setInput}: QuestionBoxProps) {
 
   const [currentQuestion, setCurrentQuestion] = useState(defaultQuestion)
 
@@ -38,12 +40,14 @@ function QuestionBox({input, setInput}: QuestionBoxProps) {
   }
     
 
-    //I need to verify if the input is correct and then change the question//
+    // verify if the input is correct and then change the question//
     useEffect(() => {
       console.log('input', input)
       currentQuestion.answer.forEach((answer) => {
         if (input === answer) {
+          setScore(score + 1)
           goToNextQuestion()
+          console.log('score', score)
         }
       })
     }
