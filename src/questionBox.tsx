@@ -23,6 +23,7 @@ const defaultQuestion: Question = {
 
 
 
+
 function QuestionBox({score, setScore, input, setInput}: QuestionBoxProps) {
 
   const [currentQuestion, setCurrentQuestion] = useState(defaultQuestion)
@@ -47,7 +48,6 @@ function QuestionBox({score, setScore, input, setInput}: QuestionBoxProps) {
         if (input === answer) {
           setScore(score + 1)
           goToNextQuestion()
-          console.log('score', score)
         }
       })
     }
