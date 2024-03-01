@@ -6,9 +6,6 @@ type ScoreBarProps = {
 
 function ScoreBar({score}: ScoreBarProps) {
 
-    function multiplyScore() {
-        return score * 10
-    }
 
 
   return (
