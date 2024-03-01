@@ -6,6 +6,10 @@ type ScoreBarProps = {
 
 function ScoreBar({score}: ScoreBarProps) {
 
+    function multiplyScore() {
+        return score * 10
+    }
+
 
   return (
     <div className='bg-white p-5 rounded-lg shadow-lg text-center w-1/4 mx-auto' >
