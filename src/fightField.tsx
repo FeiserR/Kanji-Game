@@ -25,17 +25,21 @@ function FightField() {
     setupMovement();
   }, []);
 
+
+
+  const backGroundImg = setImage(testMaps);
+
+  const Characterimg = setImage(adventurer);
+
   function animate() {
     if (canvas.current === null) return;
     if (!canvas.current.getContext("2d")) return;
 
     const ctx = canvas.current.getContext("2d");
-    if (ctx === null)return;
+    if (ctx === null) return;
 
     ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
-    const backGroundImg = setImage(testMaps);
     const backGround = new Sprite(ctx, backGroundImg, -100, -200);
-    const Characterimg = setImage(adventurer);
     const mainCharacter = new CharacterSprite(
       ctx,
       Characterimg,
