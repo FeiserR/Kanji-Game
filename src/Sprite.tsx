@@ -1,26 +1,23 @@
-
+import  VectorsXY from './VectorsXY';
 
 
 class Sprite {
     c: CanvasRenderingContext2D;
     image: HTMLImageElement;
-    positionX: number;
-    positionY: number;
+    position: VectorsXY;
 
     constructor(
       c: CanvasRenderingContext2D,
       image: HTMLImageElement,
-      positionX: number,
-      positionY: number, 
+      position: VectorsXY
       ) {
       this.c = c;
-      this.positionX = positionX;
-      this.positionY = positionY;
+      this.position= position;
       this.image = image;
   }
     
   draw () {
-    this.c.drawImage(this.image, this.positionX, this.positionY);
+    this.c.drawImage(this.image, this.position.x, this.position.y);
   }
 
   }

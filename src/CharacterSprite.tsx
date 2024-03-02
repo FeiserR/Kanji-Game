@@ -1,32 +1,42 @@
 import Sprite from './Sprite';
-
+import  VectorsXY from './VectorsXY';
 
 class CharacterSprite extends Sprite {
-    imagePlacementX: number;
-    imagePlacementY: number;
-    cropWidth: number;
-    cropHeight: number;
+    spriteFrame: number;
+    spriteSize: VectorsXY;
+    totalFrames: number;
 
     constructor(
       c:CanvasRenderingContext2D,
       image:HTMLImageElement,
-      imagePlacementX: number,
-      imagePlacementY: number,
-      positionX:number,
-      positionY:number,
-      cropWidth: number,
-      cropHeight: number
-      
+      position: VectorsXY,
+      spriteSize: VectorsXY,
+      spriteFrame: number
       ) {
-        super(c, image, positionX, positionY);
-        this.imagePlacementX = imagePlacementX
-        this.imagePlacementY = imagePlacementY
-        this.cropWidth = cropWidth
-        this.cropHeight = cropHeight
+        super(c, image, position);
+        this.spriteSize = spriteSize;
+        this.spriteFrame = spriteFrame;
+        this.totalFrames = Math.floor(image.width / spriteSize.x);
+    }
+
+    createAnimation (animationDelay: number = 140) {
+      for (let i = 0; i < this.totalFrames; i++ ) {
+        setTimeout(() => {
+          this.spriteFrame = i;
+        }, animationDelay * i);
+      }
     }
 
     drawCharacter () {
-      this.c.drawImage(this.image, this.imagePlacementX, this.imagePlacementY, this.cropWidth, this.cropHeight, this.positionX, this.positionY, this.cropWidth, this.cropHeight);
+      let topLeftXY = new VectorsXY(
+        this.spriteSize.x * this.spriteFrame,
+        0
+      );
+      this.c.drawImage(this.image, topLeftXY.x, topLeftXY.y, this.spriteSize.x, this.spriteSize.y, this.position.x, this.position.y, this.spriteSize.x, this.spriteSize.y);
+      if (this.spriteFrame === this.totalFrames - 1) {
+        this.spriteFrame = 0;
+        this.createAnimation();
+      }
     }
 
   }

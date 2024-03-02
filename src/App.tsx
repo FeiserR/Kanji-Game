@@ -10,6 +10,7 @@ function App() {
   
   const [input, setInput] = useState('')
 
+
   return (
     <>
     <div className=' bg-gradient-to-r from-green-400 to-blue-500 h-screen justify-center items-center w-screen flex flex-col gap-10'>

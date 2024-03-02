@@ -1,8 +1,9 @@
 import { useRef, useEffect } from "react";
-import testMaps from "./assets/maps/testMaps.png";
-import skeleton from "./assets/characters/Skeleton Sprite Sheets/Skeleton Idle.png";
+import testMaps from "./assets/maps/Testmap1.png";
+import skeleton from "./assets/characters/Skeleton Sprite Sheets/skeleton idleTest3.png";
 import Sprite from "./Sprite";
 import CharacterSprite from "./CharacterSprite";
+import VectorsXY from "./VectorsXY";
 
 function setImage(imageRef: string) {
   let sprite = new Image();
@@ -18,8 +19,15 @@ function FightField() {
 
   const characterImg = setImage(skeleton);
 
-  let mapAxisY = -200;
-  let mapAxisX = -100;
+  
+
+  const mapPosition = {
+    x: -60,
+    y: -30,
+  };
+
+  const characterSize = new VectorsXY(96, characterImg.height);
+
 
   const keys = {
     arrowUp: false,
@@ -45,33 +53,25 @@ function FightField() {
       return;
     }
 
-    const backGround = new Sprite(ctx, backGroundImg, mapAxisY, mapAxisX);
+    const backGround = new Sprite(ctx, backGroundImg, mapPosition);
     const mainCharacter = new CharacterSprite(
       ctx,
       characterImg,
-      0,
-      0,
-      canvas.current.width / 2 - characterImg.width / 8 / 2,
-      canvas.current.height / 2 - characterImg.width / 16 / 2,
-      characterImg.width / 12,
-      characterImg.height
+      { x:canvas.current.width / 2 - characterSize.x / 2,
+        y: canvas.current.height / 2 - characterSize.y / 2 },
+       characterSize,
+      0
+      
     );
+    mainCharacter.createAnimation();
 
     function animate() {
       window.requestAnimationFrame(animate);
 
-      if (keys.arrowUp) {
-        backGround.positionY += 1;
-      }
-      if (keys.arrowDown) {
-        backGround.positionY -= 1;
-      }
-      if (keys.arrowLeft) {
-        backGround.positionX += 1;
-      }
-      if (keys.arrowRight) {
-        backGround.positionX -= 1;
-      }
+      if (keys.arrowUp) {backGround.position.y += 1;} 
+      else if (keys.arrowDown) { backGround.position.y -= 1; } 
+      else if (keys.arrowLeft) { backGround.position.x += 3; } 
+      else if (keys.arrowRight) { backGround.position.x -= 3; }
 
       if (canvas.current !== null) {
         backGround.draw();
@@ -81,20 +81,25 @@ function FightField() {
     animate();
   }, []);
 
-  async function setupMovement() {
+  
+  let lastKey = "";
+  
+  function setupMovement() {
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
-        case "ArrowUp":
-          keys.arrowUp = true;
-          break;
-        case "ArrowDown":
-          keys.arrowDown = true;
-          break;
+        // case "ArrowUp":
+        //   keys.arrowUp = true;
+        //   break;
+        // case "ArrowDown":
+        //   keys.arrowDown = true;
+        //   break;
         case "ArrowLeft":
           keys.arrowLeft = true;
+          lastKey = "ArrowLeft";
           break;
         case "ArrowRight":
           keys.arrowRight = true;
+          lastKey = "ArrowRight";
           break;
         default:
           break;
@@ -129,10 +134,13 @@ function FightField() {
   }, []);
 
   return (
-    <div className="bg-white p-5 rounded-lg shadow-lg text-center w-1/4 mx-auto my-5 justify-center items-center flex flex-col">
+    <div className="bg-white p-5 rounded-lg shadow-lg text-center mx-auto my-5 justify-center items-center flex flex-col object-contain">
       <p className="text-2xl font-bold text-black">Fight Field</p>
+      //make the canvas bigger with css
       <canvas
-        className=" w-5/6 bg-gray-200"
+        className=" border-2 border-black rounded-lg mt-5 shadow-lg"
+        width="800"
+        height="300"
         id="fightField"
         ref={canvas}
       ></canvas>
