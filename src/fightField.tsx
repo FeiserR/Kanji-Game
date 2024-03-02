@@ -10,63 +10,88 @@ function setImage(imageRef: string) {
   return sprite;
 }
 
-const keys = {
-  arrowUp: false,
-  arrowDown: false,
-  arrowLeft: false,
-  arrowRight: false,
-};
-
 function FightField() {
   const canvas: React.RefObject<HTMLCanvasElement> =
     useRef<HTMLCanvasElement>(null);
-
-  useEffect(() => {
-    setupMovement();
-  }, []);
-
 
 
   const backGroundImg = setImage(testMaps);
 
   const Characterimg = setImage(adventurer);
 
-  function animate() {
-    if (canvas.current === null) return;
-    if (!canvas.current.getContext("2d")) return;
-
-    const ctx = canvas.current.getContext("2d");
-    if (ctx === null) return;
-
-    ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
-    const backGround = new Sprite(ctx, backGroundImg, -100, -200);
-    const mainCharacter = new CharacterSprite(
-      ctx,
-      Characterimg,
-      0,
-      0,
-      canvas.current.width / 2 - Characterimg.width / 8 / 2,
-      canvas.current.height / 2 - Characterimg.width / 16 / 2,
-      Characterimg.width / 8,
-      Characterimg.height / 16
-    );
-    backGroundImg.onload = () => {
-      if (canvas.current !== null) {
-        backGround.draw();
-
-        mainCharacter.drawCharacter();
-      }
-    };
+  let mapAxisY = -200;
+  let mapAxisX = -100;
   
-    // if (arrowUp) {
+  const keys = {
+    arrowUp: false,
+    arrowDown: false,
+    arrowLeft: false,
+    arrowRight: false,
+  };
 
-    // }
-    window.requestAnimationFrame(animate);
+  if (canvas.current === null) {
+    console.error("Canvas is null");
+    return;
+  }
+  if (!canvas.current.getContext("2d")) {
+    console.error("Canvas get content is not true");
+    return;
+  }
+  
+  const ctx = canvas.current.getContext("2d");
+
+
+  if (ctx === null) {
+    console.error("ctx is null");
+    return;
   }
 
-  animate();
+  // ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);
+  const backGround = new Sprite(ctx, backGroundImg, mapAxisY, mapAxisX);
+  const mainCharacter = new CharacterSprite(
+    ctx,
+    Characterimg,
+    0,
+    0,
+    canvas.current.width / 2 - Characterimg.width / 8 / 2,
+    canvas.current.height / 2 - Characterimg.width / 16 / 2,
+    Characterimg.width / 8,
+    Characterimg.height / 16
+  );
 
-  function setupMovement() {
+  function animate() {
+    window.requestAnimationFrame(animate);
+
+    if (keys.arrowUp) {
+      backGround.positionY += 1;
+    }
+    if (keys.arrowDown) {
+      backGround.positionY -= 1;
+    }
+    if (keys.arrowLeft) {
+      backGround.positionX += 1;
+    }
+    if (keys.arrowRight) {
+      backGround.positionX -= 1;
+    }
+
+
+    if (canvas.current !== null) {
+      backGround.draw();
+      mainCharacter.drawCharacter();
+    }
+
+  
+    
+  }
+
+  useEffect(() => {
+    animate();
+  }, []); 
+
+
+
+  async function setupMovement() {
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
         case "ArrowUp":
@@ -86,6 +111,32 @@ function FightField() {
       }
     });
   }
+
+  async function setupNotMovement() {
+    window.addEventListener("keyup", (e) => {
+      switch (e.key) {
+        case "ArrowUp":
+          keys.arrowUp = false;
+          break;
+        case "ArrowDown":
+          keys.arrowDown = false;
+          break;
+        case "ArrowLeft":
+          keys.arrowLeft = false;
+          break;
+        case "ArrowRight":
+          keys.arrowRight = false;
+          break;
+        default:
+          break;
+      }
+    });
+  }
+
+  useEffect(() => {
+    setupMovement();
+    setupNotMovement();
+  }, []);
 
   return (
     <div className="bg-white p-5 rounded-lg shadow-lg text-center w-1/4 mx-auto my-5 justify-center items-center flex flex-col">
