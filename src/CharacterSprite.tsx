@@ -27,6 +27,8 @@ class CharacterSprite extends Sprite {
       }
     }
 
+    // changeAnimation (spriteFrame: number) {
+
     drawCharacter () {
       let topLeftXY = new VectorsXY(
         this.spriteSize.x * this.spriteFrame,

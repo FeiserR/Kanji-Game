@@ -1,6 +1,6 @@
 import { useRef, useEffect } from "react";
 import testMaps from "./assets/maps/Testmap1.png";
-import skeleton from "./assets/characters/Skeleton Sprite Sheets/skeleton idleTest3.png";
+import skeleton from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton attacktest2.png";
 import Sprite from "./Sprite";
 import CharacterSprite from "./CharacterSprite";
 import VectorsXY from "./VectorsXY";
@@ -26,7 +26,7 @@ function FightField() {
     y: -30,
   };
 
-  const characterSize = new VectorsXY(96, characterImg.height);
+  const characterSize = new VectorsXY(172, characterImg.height);
 
 
   const keys = {
