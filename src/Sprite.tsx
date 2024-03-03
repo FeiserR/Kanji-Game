@@ -5,15 +5,18 @@ class Sprite {
     c: CanvasRenderingContext2D;
     image: HTMLImageElement;
     position: VectorsXY;
+    sprites: Array<HTMLImageElement>;
 
     constructor(
       c: CanvasRenderingContext2D,
       image: HTMLImageElement,
-      position: VectorsXY
+      position: VectorsXY,
+      sprites: Array<HTMLImageElement>
       ) {
       this.c = c;
       this.position= position;
       this.image = image;
+      this.sprites = sprites;
   }
     
   draw () {

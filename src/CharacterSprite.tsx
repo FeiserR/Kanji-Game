@@ -1,6 +1,7 @@
 import Sprite from './Sprite';
 import  VectorsXY from './VectorsXY';
 
+
 class CharacterSprite extends Sprite {
     spriteFrame: number;
     spriteSize: VectorsXY;
@@ -11,13 +12,16 @@ class CharacterSprite extends Sprite {
       image:HTMLImageElement,
       position: VectorsXY,
       spriteSize: VectorsXY,
-      spriteFrame: number
+      spriteFrame: number,
+      sprites: Array<HTMLImageElement>
       ) {
-        super(c, image, position);
+        super(c, image, position, sprites);
         this.spriteSize = spriteSize;
         this.spriteFrame = spriteFrame;
         this.totalFrames = Math.floor(image.width / spriteSize.x);
     }
+
+
 
     createAnimation (animationDelay: number = 140) {
       for (let i = 0; i < this.totalFrames; i++ ) {
@@ -27,9 +31,9 @@ class CharacterSprite extends Sprite {
       }
     }
 
-    // changeAnimation (spriteFrame: number) {
 
     drawCharacter () {
+
       let topLeftXY = new VectorsXY(
         this.spriteSize.x * this.spriteFrame,
         0

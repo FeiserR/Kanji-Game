@@ -1,6 +1,8 @@
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import testMaps from "./assets/maps/Testmap1.png";
-import skeleton from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton attacktest2.png";
+import skeletonWalk from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton walkTest3.png";
+import skeletonIdle from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton idleTest3.png";
+import skeletonAttack from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton attacktest3.png";
 import Sprite from "./Sprite";
 import CharacterSprite from "./CharacterSprite";
 import VectorsXY from "./VectorsXY";
@@ -17,17 +19,39 @@ function FightField() {
 
   const backGroundImg = setImage(testMaps);
 
-  const characterImg = setImage(skeleton);
+
+  const numberOfPixesPerFrame = [ 96, 88, 172];
+  
+  const [animationNumber, setAnimationNumber] = useState(0);
 
   
 
+
+  const characterImg = setImage(skeletonIdle)
+
+
+  const idleImg = setImage(skeletonIdle);
+  const walkImg = setImage(skeletonWalk);
+  const attackImg = setImage(skeletonAttack);
+  const arrayOfCharacterImages = [
+    idleImg,
+    walkImg, 
+    attackImg
+  ];
+
+  
   const mapPosition = {
     x: -60,
     y: -30,
   };
 
-  const characterSize = new VectorsXY(172, characterImg.height);
+  //172 for attacktest2.png
+  //96 for idleTest3.png
+  //88 for walkTest1.png
 
+  const characterSize = new VectorsXY( numberOfPixesPerFrame[animationNumber] , characterImg.height);
+
+  
 
   const keys = {
     arrowUp: false,
@@ -53,14 +77,15 @@ function FightField() {
       return;
     }
 
-    const backGround = new Sprite(ctx, backGroundImg, mapPosition);
+    const backGround = new Sprite(ctx, backGroundImg, mapPosition, []);
     const mainCharacter = new CharacterSprite(
       ctx,
       characterImg,
       { x:canvas.current.width / 2 - characterSize.x / 2,
-        y: canvas.current.height / 2 - characterSize.y / 2 },
+        y: canvas.current.height / 2 - characterSize.y / 64 },
        characterSize,
-      0
+      0,
+      arrayOfCharacterImages
       
     );
     mainCharacter.createAnimation();
@@ -68,11 +93,14 @@ function FightField() {
     function animate() {
       window.requestAnimationFrame(animate);
 
-      if (keys.arrowUp) {backGround.position.y += 1;} 
-      else if (keys.arrowDown) { backGround.position.y -= 1; } 
-      else if (keys.arrowLeft) { backGround.position.x += 3; } 
-      else if (keys.arrowRight) { backGround.position.x -= 3; }
-
+      if (keys.arrowLeft  && lastKey === "ArrowLeft") { 
+        backGround.position.x += 1;
+        mainCharacter.image = arrayOfCharacterImages[2];
+      } 
+      else if (keys.arrowRight && lastKey === "ArrowRight") { 
+        backGround.position.x -= 1; 
+        mainCharacter.image = arrayOfCharacterImages[1];
+      }
       if (canvas.current !== null) {
         backGround.draw();
         mainCharacter.drawCharacter();
@@ -87,19 +115,15 @@ function FightField() {
   function setupMovement() {
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
-        // case "ArrowUp":
-        //   keys.arrowUp = true;
-        //   break;
-        // case "ArrowDown":
-        //   keys.arrowDown = true;
-        //   break;
         case "ArrowLeft":
           keys.arrowLeft = true;
           lastKey = "ArrowLeft";
+          // animationNumber = 1;
           break;
         case "ArrowRight":
           keys.arrowRight = true;
           lastKey = "ArrowRight";
+          // animationNumber = 2;
           break;
         default:
           break;
@@ -110,12 +134,6 @@ function FightField() {
   function setupNotMovement() {
     window.addEventListener("keyup", (e) => {
       switch (e.key) {
-        case "ArrowUp":
-          keys.arrowUp = false;
-          break;
-        case "ArrowDown":
-          keys.arrowDown = false;
-          break;
         case "ArrowLeft":
           keys.arrowLeft = false;
           break;
