@@ -11,19 +11,19 @@ import CharacterSprite from "./CharacterSprite";
 const idleAnimation = new CharacterAnimation(
   setImage(MainCharacterIdleAnimation),
   200,
-  100,
+  200,
   "Idle"
 );
 const walkAnimationRight = new CharacterAnimation(
   setImage(MainCharacterRunningRight),
   200,
-  100,
+  70,
   "walk"
 );
 const walkAnimationLeft = new CharacterAnimation(
   setImage(MainCharacterRunningLeft),
   200,
-  100,
+  70,
   "walk"
 );
 
@@ -84,7 +84,7 @@ function FightField() {
     window.requestAnimationFrame(() => animate(backGround, mainCharacter));
 
     if (keys.arrowLeft && lastKey === "ArrowLeft") {
-      backGround.position.x += 1;
+      backGround.position.x += 5;
       mainCharacter.switchAnimation(walkAnimationLeft);
     }
     // else if (keys.enter && lastKey === "enter" || keys.enter && lastKey === "ArrowRight") {
@@ -95,7 +95,7 @@ function FightField() {
     // }
 
     else if (keys.arrowRight && lastKey === "ArrowRight") {
-      backGround.position.x -= 1;
+      backGround.position.x -= 5;
 
       mainCharacter.switchAnimation(walkAnimationRight);
     }
