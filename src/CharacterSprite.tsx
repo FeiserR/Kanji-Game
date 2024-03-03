@@ -1,50 +1,43 @@
-import Sprite from './Sprite';
-import  VectorsXY from './VectorsXY';
+import VectorsXY from "./VectorsXY";
+import CharacterAnimation from "./CharacterAnimation";
 
+class CharacterSprite {
+  currentAnimation: CharacterAnimation;
+  c : CanvasRenderingContext2D;
+  position: VectorsXY;
+  constructor(
+    c: CanvasRenderingContext2D,
+    position: VectorsXY,
+    animation: CharacterAnimation,
+  ) {
+    this.c= c;
+    this.currentAnimation = animation;
+    this.currentAnimation.startAnimation();
+    this.position = position;
+  }
 
-class CharacterSprite extends Sprite {
-    spriteFrame: number;
-    spriteSize: VectorsXY;
-    totalFrames: number;
-
-    constructor(
-      c:CanvasRenderingContext2D,
-      image:HTMLImageElement,
-      position: VectorsXY,
-      spriteSize: VectorsXY,
-      spriteFrame: number,
-      sprites: Array<HTMLImageElement>
-      ) {
-        super(c, image, position, sprites);
-        this.spriteSize = spriteSize;
-        this.spriteFrame = spriteFrame;
-        this.totalFrames = Math.floor(image.width / spriteSize.x);
-    }
-
-
-
-    createAnimation (animationDelay: number = 140) {
-      for (let i = 0; i < this.totalFrames; i++ ) {
-        setTimeout(() => {
-          this.spriteFrame = i;
-        }, animationDelay * i);
-      }
-    }
-
-
-    drawCharacter () {
-
-      let topLeftXY = new VectorsXY(
-        this.spriteSize.x * this.spriteFrame,
-        0
-      );
-      this.c.drawImage(this.image, topLeftXY.x, topLeftXY.y, this.spriteSize.x, this.spriteSize.y, this.position.x, this.position.y, this.spriteSize.x, this.spriteSize.y);
-      if (this.spriteFrame === this.totalFrames - 1) {
-        this.spriteFrame = 0;
-        this.createAnimation();
-      }
-    }
+  switchAnimation(animation: CharacterAnimation) {
+    if (animation.name === this.currentAnimation.name) { return }
+    this.currentAnimation = animation;
+    this.currentAnimation.startAnimation();
 
   }
 
-  export default CharacterSprite;
+
+  drawCharacter() {
+    let currentFrame = this.currentAnimation.getCurrentFrame();
+    this.c.drawImage(
+      currentFrame.image,
+      currentFrame.topLeft.x,
+      currentFrame.topLeft.y,
+      currentFrame.size.x,
+      currentFrame.size.y,
+      this.position.x,
+      this.position.y,
+      currentFrame.size.x,
+      currentFrame.size.y
+    );
+    // console.log();
+  }
+}
+export default CharacterSprite;

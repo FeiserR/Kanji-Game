@@ -1,11 +1,12 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import testMaps from "./assets/maps/Testmap1.png";
-import skeletonWalk from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton walkTest3.png";
-import skeletonIdle from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton idleTest3.png";
-import skeletonAttack from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton attacktest3.png";
+import skeletonWalkRight from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton walkRight.png";
+import skeletonWalkLeft from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeletok walkLeft.png";
+import skeletonIdle from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton idle.png";
+import skeletonAttack from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton attack.png";
+import CharacterAnimation from "./CharacterAnimation";
 import Sprite from "./Sprite";
 import CharacterSprite from "./CharacterSprite";
-import VectorsXY from "./VectorsXY";
 
 function setImage(imageRef: string) {
   let sprite = new Image();
@@ -18,46 +19,40 @@ function FightField() {
     useRef<HTMLCanvasElement>(null);
 
   const backGroundImg = setImage(testMaps);
-
-
-  const numberOfPixesPerFrame = [ 96, 88, 172];
   
-  const [animationNumber, setAnimationNumber] = useState(0);
+  const idleAnimation =  new CharacterAnimation (
+    setImage(skeletonIdle),
+    96,
+    100,
+    "Idle"
+  );
+  const walkAnimationRight =  new CharacterAnimation (
+    setImage(skeletonWalkRight),
+    88,
+    100,
+    "walk"
+  );
+  const walkAnimationLeft =  new CharacterAnimation (
+    setImage(skeletonWalkLeft),
+    88,
+    100,
+    "walk"
+  );
+  const attackAnimation =  new CharacterAnimation (
+    setImage(skeletonAttack),
+    172,
+    100,
+    "attack"
+  );
 
-  
-
-
-  const characterImg = setImage(skeletonIdle)
-
-
-  const idleImg = setImage(skeletonIdle);
-  const walkImg = setImage(skeletonWalk);
-  const attackImg = setImage(skeletonAttack);
-  const arrayOfCharacterImages = [
-    idleImg,
-    walkImg, 
-    attackImg
-  ];
-
-  
-  const mapPosition = {
-    x: -60,
-    y: -30,
-  };
-
-  //172 for attacktest2.png
-  //96 for idleTest3.png
-  //88 for walkTest1.png
-
-  const characterSize = new VectorsXY( numberOfPixesPerFrame[animationNumber] , characterImg.height);
-
-  
+  const mapPosition = { x: -60, y: -30,};
 
   const keys = {
     arrowUp: false,
     arrowDown: false,
     arrowLeft: false,
     arrowRight: false,
+    enter: false,
   };
 
   useEffect(() => {
@@ -76,54 +71,62 @@ function FightField() {
       console.error("ctx is null");
       return;
     }
-
-    const backGround = new Sprite(ctx, backGroundImg, mapPosition, []);
+    
+    const backGround = new Sprite(ctx, backGroundImg, mapPosition);
     const mainCharacter = new CharacterSprite(
       ctx,
-      characterImg,
-      { x:canvas.current.width / 2 - characterSize.x / 2,
-        y: canvas.current.height / 2 - characterSize.y / 64 },
-       characterSize,
-      0,
-      arrayOfCharacterImages
-      
+      { x: canvas.current.width / 2, y: canvas.current.height / 2 },
+      idleAnimation 
     );
-    mainCharacter.createAnimation();
 
-    function animate() {
-      window.requestAnimationFrame(animate);
-
-      if (keys.arrowLeft  && lastKey === "ArrowLeft") { 
-        backGround.position.x += 1;
-        mainCharacter.image = arrayOfCharacterImages[2];
-      } 
-      else if (keys.arrowRight && lastKey === "ArrowRight") { 
-        backGround.position.x -= 1; 
-        mainCharacter.image = arrayOfCharacterImages[1];
-      }
-      if (canvas.current !== null) {
-        backGround.draw();
-        mainCharacter.drawCharacter();
-      }
-    }
-    animate();
+    animate(backGround, mainCharacter );
+    setupMovement();
+    setupNotMovement(mainCharacter);
   }, []);
+  
 
+
+  function animate(backGround: Sprite, mainCharacter: CharacterSprite) {
+    window.requestAnimationFrame(() => animate(backGround, mainCharacter));
+
+    if (keys.arrowLeft && lastKey === "ArrowLeft") {
+      backGround.position.x += 1;
+      mainCharacter.switchAnimation(walkAnimationLeft);
+    } 
   
+    else if (keys.enter && lastKey === "enter") {
+      mainCharacter.switchAnimation( attackAnimation);
+    }
+    else if (keys.arrowRight && lastKey === "ArrowRight") {
+      backGround.position.x -= 1;
+
+      mainCharacter.switchAnimation(walkAnimationRight);
+
+    }
+    if (canvas.current !== null) {
+      backGround.draw();
+      mainCharacter.drawCharacter();
+    }
+  }
+
   let lastKey = "";
-  
+
   function setupMovement() {
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
         case "ArrowLeft":
           keys.arrowLeft = true;
           lastKey = "ArrowLeft";
-          // animationNumber = 1;
+
           break;
         case "ArrowRight":
           keys.arrowRight = true;
           lastKey = "ArrowRight";
-          // animationNumber = 2;
+
+          break;
+        case "Enter":
+          keys.enter = true;
+          lastKey = "enter";
           break;
         default:
           break;
@@ -131,25 +134,24 @@ function FightField() {
     });
   }
 
-  function setupNotMovement() {
+  function setupNotMovement(mainCharacter: CharacterSprite) {
     window.addEventListener("keyup", (e) => {
       switch (e.key) {
         case "ArrowLeft":
           keys.arrowLeft = false;
+          mainCharacter.switchAnimation(idleAnimation);
+
           break;
         case "ArrowRight":
           keys.arrowRight = false;
+          mainCharacter.switchAnimation(idleAnimation);
+
           break;
         default:
           break;
       }
     });
   }
-
-  useEffect(() => {
-    setupMovement();
-    setupNotMovement();
-  }, []);
 
   return (
     <div className="bg-white p-5 rounded-lg shadow-lg text-center mx-auto my-5 justify-center items-center flex flex-col object-contain">
