@@ -1,12 +1,31 @@
 import { useRef, useEffect } from "react";
 import testMaps from "./assets/maps/Testmap1.png";
-import skeletonWalkRight from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton walkRight.png";
-import skeletonWalkLeft from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeletok walkLeft.png";
-import skeletonIdle from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton idle.png";
-import skeletonAttack from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton attack.png";
+import MainCharacterIdleAnimation from "./assets/characters/MainCharacter/MainCharacter Idle animation.png";
+import MainCharacterRunningRight from "./assets/characters/MainCharacter/MainCharacter running animation.png";
+import MainCharacterRunningLeft from "./assets/characters/MainCharacter/MainCharacter running left animation.png";
 import CharacterAnimation from "./CharacterAnimation";
 import Sprite from "./Sprite";
 import CharacterSprite from "./CharacterSprite";
+
+
+const idleAnimation = new CharacterAnimation(
+  setImage(MainCharacterIdleAnimation),
+  200,
+  100,
+  "Idle"
+);
+const walkAnimationRight = new CharacterAnimation(
+  setImage(MainCharacterRunningRight),
+  200,
+  100,
+  "walk"
+);
+const walkAnimationLeft = new CharacterAnimation(
+  setImage(MainCharacterRunningLeft),
+  200,
+  100,
+  "walk"
+);
 
 function setImage(imageRef: string) {
   let sprite = new Image();
@@ -19,33 +38,10 @@ function FightField() {
     useRef<HTMLCanvasElement>(null);
 
   const backGroundImg = setImage(testMaps);
-  
-  const idleAnimation =  new CharacterAnimation (
-    setImage(skeletonIdle),
-    96,
-    100,
-    "Idle"
-  );
-  const walkAnimationRight =  new CharacterAnimation (
-    setImage(skeletonWalkRight),
-    88,
-    100,
-    "walk"
-  );
-  const walkAnimationLeft =  new CharacterAnimation (
-    setImage(skeletonWalkLeft),
-    88,
-    100,
-    "walk"
-  );
-  const attackAnimation =  new CharacterAnimation (
-    setImage(skeletonAttack),
-    172,
-    100,
-    "attack"
-  );
 
-  const mapPosition = { x: -60, y: -30,};
+ 
+
+  const mapPosition = { x: -60, y: -30 };
 
   const keys = {
     arrowUp: false,
@@ -71,20 +67,18 @@ function FightField() {
       console.error("ctx is null");
       return;
     }
-    
+
     const backGround = new Sprite(ctx, backGroundImg, mapPosition);
     const mainCharacter = new CharacterSprite(
       ctx,
       { x: canvas.current.width / 2, y: canvas.current.height / 2 },
-      idleAnimation 
+      idleAnimation
     );
 
-    animate(backGround, mainCharacter );
+    animate(backGround, mainCharacter);
     setupMovement();
     setupNotMovement(mainCharacter);
   }, []);
-  
-
 
   function animate(backGround: Sprite, mainCharacter: CharacterSprite) {
     window.requestAnimationFrame(() => animate(backGround, mainCharacter));
@@ -92,16 +86,18 @@ function FightField() {
     if (keys.arrowLeft && lastKey === "ArrowLeft") {
       backGround.position.x += 1;
       mainCharacter.switchAnimation(walkAnimationLeft);
-    } 
-  
-    else if (keys.enter && lastKey === "enter") {
-      mainCharacter.switchAnimation( attackAnimation);
     }
+    // else if (keys.enter && lastKey === "enter" || keys.enter && lastKey === "ArrowRight") {
+    //   mainCharacter.switchAnimation(attackRight);
+    // } 
+    // else if (keys.enter && lastKey === "ArrowLeft") {
+    //   mainCharacter.switchAnimation(attackLeft);
+    // }
+
     else if (keys.arrowRight && lastKey === "ArrowRight") {
       backGround.position.x -= 1;
 
       mainCharacter.switchAnimation(walkAnimationRight);
-
     }
     if (canvas.current !== null) {
       backGround.draw();
