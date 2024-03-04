@@ -37,7 +37,7 @@ function TypeBox({input, setInput}: TypeBoxProps) {
   return (
     <>
     <input 
-      className='outline-none border-none border-gray-300 px-3 rounded-lg shadow-xl min-w-80 min-h-10 placeholder-white bg-opacity-30 bg-black' 
+      className='outline-none border-none border-gray-300 px-3 rounded-lg shadow-xl min-w-full min-h-10 placeholder-white bg-opacity-30 bg-black text-white text-2xl font-bold w-1/4 m-20' 
       onChange={handleInputChange} 
       type="text"
       value={transformString(input)} 

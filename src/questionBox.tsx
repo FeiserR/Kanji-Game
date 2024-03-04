@@ -73,7 +73,7 @@ function QuestionBox({score, setScore, input, setInput}: QuestionBoxProps) {
 
   return (
 
-      <div className=" text-center text-white shadow-lg shadow-blue-500/50 bg-gradient-to-r from-blue-400 to-purple-600 rounded-lg p-3 w-3/4 mx-auto max-w-3xl h-96 flex flex-col justify-center">
+      <div className=" text-center rounded-lg p-3 w-3/4 mx-auto max-w-3xl h-96 flex flex-col justify-center">
       {/* <p>currentQuestion length {currentQuestion.answer.length}</p> */}
       <p className="w-3/4 mx-auto font-bold  text-9xl">{currentQuestion.question}</p>
       </div>

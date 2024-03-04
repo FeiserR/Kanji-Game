@@ -150,12 +150,10 @@ function FightField() {
   }
 
   return (
-    <div className="bg-white p-5 rounded-lg shadow-lg text-center mx-auto my-5 justify-center items-center flex flex-col object-contain">
-      <p className="text-2xl font-bold text-black">Fight Field</p>
-      //make the canvas bigger with css
+    <div className=" fightField text-center my-5 justify-center items-center flex flex-col p-2 mx-auto shadow-inner ">
       <canvas
-        className=" border-2 border-black rounded-lg mt-5 shadow-lg"
-        width="800"
+        className=" shadow-inner"
+        width="1900"
         height="300"
         id="fightField"
         ref={canvas}
