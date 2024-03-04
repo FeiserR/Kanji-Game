@@ -16,7 +16,11 @@ class InterativeTile {
     }
 
 
-    draw(c: CanvasRenderingContext2D, position: VectorsXY, size: VectorsXY) {
+    draw() {
+        this.c.fillStyle = "green";
         this.c.fillRect( this.position.x, this.position.y, this.size.x, this.size.y);
     }
 }
+
+
+export default InterativeTile;

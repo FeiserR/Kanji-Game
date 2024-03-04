@@ -1,11 +1,13 @@
 import { useRef, useEffect } from "react";
-import testMaps from "./assets/maps/Testmap1.png";
+import testMaps from "./assets/maps/testMap2.png";
 import MainCharacterIdleAnimation from "./assets/characters/MainCharacter/MainCharacter Idle animation.png";
 import MainCharacterRunningRight from "./assets/characters/MainCharacter/MainCharacter running animation.png";
 import MainCharacterRunningLeft from "./assets/characters/MainCharacter/MainCharacter running left animation.png";
 import CharacterAnimation from "./CharacterAnimation";
 import Sprite from "./Sprite";
 import CharacterSprite from "./CharacterSprite";
+import CreatedTiles from "./CreatedTiles";
+import collisionMapData from "./assets/maps/mapIteractiveTiles/CollisionTiles/MapTest2 16x16 tiles.tsx";
 
 
 const idleAnimation = new CharacterAnimation(
@@ -41,7 +43,7 @@ function FightField() {
 
  
 
-  const mapPosition = { x: -60, y: -30 };
+  const mapContentsOffSetPosition = { x: -60, y: -30 };
 
   const keys = {
     arrowUp: false,
@@ -68,20 +70,22 @@ function FightField() {
       return;
     }
 
-    const backGround = new Sprite(ctx, backGroundImg, mapPosition);
+    const backGround = new Sprite(ctx, backGroundImg, mapContentsOffSetPosition);
     const mainCharacter = new CharacterSprite(
       ctx,
       { x: canvas.current.width / 2, y: canvas.current.height / 2 },
       idleAnimation
     );
+    const collisionTiles = new CreatedTiles(collisionMapData,{x: 32, y: 32},ctx, 649, 200,mapContentsOffSetPosition);
 
-    animate(backGround, mainCharacter);
+  
+    animate(backGround, mainCharacter, collisionTiles);
     setupMovement();
     setupNotMovement(mainCharacter);
   }, []);
 
-  function animate(backGround: Sprite, mainCharacter: CharacterSprite) {
-    window.requestAnimationFrame(() => animate(backGround, mainCharacter));
+  function animate(backGround: Sprite, mainCharacter: CharacterSprite, collisionTiles: CreatedTiles) {
+    window.requestAnimationFrame(() => animate(backGround, mainCharacter, collisionTiles));
 
     if (keys.arrowLeft && lastKey === "ArrowLeft") {
       backGround.position.x += 5;
@@ -102,6 +106,7 @@ function FightField() {
     if (canvas.current !== null) {
       backGround.draw();
       mainCharacter.drawCharacter();
+      collisionTiles.drawTiles();
     }
   }
 
@@ -150,7 +155,7 @@ function FightField() {
   }
 
   return (
-    <div className=" fightField text-center my-5 justify-center items-center flex flex-col p-2 mx-auto shadow-inner ">
+    <div className=" fightField text-center my-5 justify-center items-center flex flex-col p-5 mx-auto shadow-inner ">
       <canvas
         className=" shadow-inner"
         width="1900"
