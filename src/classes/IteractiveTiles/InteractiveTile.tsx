@@ -1,4 +1,4 @@
-import VectorsXY from "./VectorsXY";
+import VectorsXY from "../Directions/VectorsXY";
 
 class InterativeTile {
     c: CanvasRenderingContext2D;

@@ -1,4 +1,4 @@
-import VectorsXY from "./VectorsXY";
+import VectorsXY from "../Directions/VectorsXY";
 import AnimationFrame from "./AnimationFrame";
 
 class CharacterAnimation {
@@ -29,7 +29,6 @@ class CharacterAnimation {
   }
 
   getCurrentFrame() {
-    console.log(`getting the current frame of ${this.name}, frame ${this.spriteFrame} of ${this.totalFrames} frames.`);
     let currentTime = Date.now();
     let frameTime = currentTime - this.FrameStartTime;
     if (frameTime > this.frameDelay) {

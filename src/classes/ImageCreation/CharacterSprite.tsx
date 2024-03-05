@@ -1,5 +1,5 @@
-import VectorsXY from "./VectorsXY";
-import CharacterAnimation from "./CharacterAnimation";
+import VectorsXY from "../Directions/VectorsXY";
+import CharacterAnimation from "../Animation/CharacterAnimation";
 
 class CharacterSprite {
   currentAnimation: CharacterAnimation;

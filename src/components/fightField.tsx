@@ -1,38 +1,15 @@
 import { useRef, useEffect } from "react";
-import testMaps from "./assets/maps/testMap2.png";
-import MainCharacterIdleAnimation from "./assets/characters/MainCharacter/MainCharacter Idle animation.png";
-import MainCharacterRunningRight from "./assets/characters/MainCharacter/MainCharacter running animation.png";
-import MainCharacterRunningLeft from "./assets/characters/MainCharacter/MainCharacter running left animation.png";
-import CharacterAnimation from "./CharacterAnimation";
-import Sprite from "./Sprite";
-import CharacterSprite from "./CharacterSprite";
-import CreatedTiles from "./CreatedTiles";
-import collisionMapData from "./assets/maps/mapIteractiveTiles/CollisionTiles/MapTest2 16x16 tiles.tsx";
-
-const idleAnimation = new CharacterAnimation(
-  setImage(MainCharacterIdleAnimation),
-  200,
-  200,
-  "Idle"
-);
-const walkAnimationRight = new CharacterAnimation(
-  setImage(MainCharacterRunningRight),
-  200,
-  70,
-  "walk"
-);
-const walkAnimationLeft = new CharacterAnimation(
-  setImage(MainCharacterRunningLeft),
-  200,
-  70,
-  "walk"
-);
-
-function setImage(imageRef: string) {
-  let sprite = new Image();
-  sprite.src = imageRef;
-  return sprite;
-}
+import testMaps from "../assets/maps/Testmaps/testMap2.png";
+import Sprite from "../classes/ImageCreation/Sprite.tsx";
+import CharacterSprite from "../classes/ImageCreation/CharacterSprite.tsx";
+import CreatedTiles from "../classes/IteractiveTiles/CreatedTiles.tsx";
+import collisionMapData from "../assets/maps/mapIteractiveTiles/CollisionTiles/MapTest2 16x16 tiles.tsx";
+import {
+  idleAnimation,
+  walkAnimationRight,
+  walkAnimationLeft,
+  setImage,
+} from "../animations/MainCharacterAnimations.tsx";
 
 function FightField() {
   const canvas: React.RefObject<HTMLCanvasElement> =
@@ -74,7 +51,7 @@ function FightField() {
     );
     const mainCharacter = new CharacterSprite(
       ctx,
-      { x: canvas.current.width / 2, y: canvas.current.height / 2 },
+      { x: 324, y: canvas.current.height / 2 },
       idleAnimation
     );
     const collisionTiles = new CreatedTiles(
@@ -99,9 +76,16 @@ function FightField() {
     window.requestAnimationFrame(() =>
       animate(backGround, mainCharacter, collisionTiles)
     );
+    if (collisionTiles.tilesPositions.length > 0) {
+      console.log(`mainCharacter: ${mainCharacter.position.x} barrier: ${collisionTiles.tilesPositions[0].left}
+    backGround: ${backGround.position.x}`);
+    } else {
+      console.log("No collisionTiles");
+    }
 
     if (keys.arrowLeft && lastKey === "ArrowLeft") {
       backGround.position.x += 5;
+      collisionTiles.tilesPositions[0].left += 5;
       mainCharacter.switchAnimation(walkAnimationLeft);
     }
     // else if (keys.enter && lastKey === "enter" || keys.enter && lastKey === "ArrowRight") {
@@ -112,6 +96,7 @@ function FightField() {
     // }
     else if (keys.arrowRight && lastKey === "ArrowRight") {
       backGround.position.x -= 5;
+      collisionTiles.tilesPositions[0].left -= 5;
 
       mainCharacter.switchAnimation(walkAnimationRight);
     }
@@ -167,7 +152,7 @@ function FightField() {
   }
 
   return (
-    <div className=" fightField text-center my-5 justify-center items-center flex flex-col p-5 mx-auto shadow-inner ">
+    <div className=" text-center my-5 justify-center items-center flex flex-col p-5 mx-auto shadow-inner ">
       <canvas
         className="shadow-inner"
         width="1900"
