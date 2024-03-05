@@ -1,23 +1,22 @@
-import { useRef, useEffect } from "react";
-import testMaps from "../assets/maps/Testmaps/testMap2.png";
+import { useRef, useEffect, useState } from "react";
 import Sprite from "../classes/ImageCreation/Sprite.tsx";
 import CharacterSprite from "../classes/ImageCreation/CharacterSprite.tsx";
 import CreatedTiles from "../classes/IteractiveTiles/CreatedTiles.tsx";
 import collisionMapData from "../assets/maps/mapIteractiveTiles/CollisionTiles/MapTest2 16x16 tiles.tsx";
-import {
-  idleAnimation,
-  walkAnimationRight,
-  walkAnimationLeft,
-  setImage,
-} from "../animations/MainCharacterAnimations.tsx";
+import { idleAnimation,  walkAnimationRight,  walkAnimationLeft,} from "../animations/MainCharacterAnimations.tsx";
+import { backGroundImg } from "../backgrounds/Backgrounds.tsx";
 
 function FightField() {
   const canvas: React.RefObject<HTMLCanvasElement> =
     useRef<HTMLCanvasElement>(null);
 
-  const backGroundImg = setImage(testMaps);
-
   const mapContentsOffSetPosition = { x: -60, y: -30 };
+
+//  let collidingLeft = false;
+// let collidingRight = false;
+
+  let lastKey = "";
+  
 
   const keys = {
     arrowUp: false,
@@ -26,8 +25,10 @@ function FightField() {
     arrowRight: false,
     enter: false,
   };
+  
 
   useEffect(() => {
+
     if (canvas.current === null) {
       console.error("Canvas is null");
       return;
@@ -51,7 +52,7 @@ function FightField() {
     );
     const mainCharacter = new CharacterSprite(
       ctx,
-      { x: 324, y: canvas.current.height / 2 },
+      { x: 400, y: canvas.current.height / 2 },
       idleAnimation
     );
     const collisionTiles = new CreatedTiles(
@@ -63,41 +64,45 @@ function FightField() {
       mapContentsOffSetPosition
     );
 
-    animate(backGround, mainCharacter, collisionTiles);
+    animate(false, false, backGround, mainCharacter, collisionTiles);
     setupMovement();
     setupNotMovement(mainCharacter);
   }, []);
 
-  function animate(
+  function animate( 
+    collidingLeft: boolean,
+    collidingRight: boolean,
     backGround: Sprite,
     mainCharacter: CharacterSprite,
     collisionTiles: CreatedTiles
   ) {
-    window.requestAnimationFrame(() =>
-      animate(backGround, mainCharacter, collisionTiles)
-    );
-    if (collisionTiles.tilesPositions.length > 0) {
-      console.log(`mainCharacter: ${mainCharacter.position.x} barrier: ${collisionTiles.tilesPositions[0].left}
-    backGround: ${backGround.position.x}`);
-    } else {
-      console.log("No collisionTiles");
-    }
 
-    if (keys.arrowLeft && lastKey === "ArrowLeft") {
+    if (collisionTiles.tilesPositionsLeft.length > 0 && collisionTiles.tilesPositionsRight.length > 0) {
+      if (mainCharacter.position.x <= collisionTiles.tilesPositionsRight[0]) {
+        console.log("colliding");
+        console.log(collidingLeft)
+        collidingLeft= true;
+      } else { 
+          console.log("not colliding");
+          console.log(collidingLeft)
+          collidingLeft= false;
+        }
+        // if (mainCharacter.position.x +  >= collisionTiles.tilesPositionsLeft[0]) {
+        //   collidingRight = true;
+        // }
+    } 
+    
+    if (keys.arrowLeft && lastKey === "ArrowLeft" && !collidingLeft) {
       backGround.position.x += 5;
-      collisionTiles.tilesPositions[0].left += 5;
+      collisionTiles.tilesPositionsLeft[0] += 5;
+      collisionTiles.tilesPositionsRight[0] += 5;
       mainCharacter.switchAnimation(walkAnimationLeft);
-    }
-    // else if (keys.enter && lastKey === "enter" || keys.enter && lastKey === "ArrowRight") {
-    //   mainCharacter.switchAnimation(attackRight);
-    // }
-    // else if (keys.enter && lastKey === "ArrowLeft") {
-    //   mainCharacter.switchAnimation(attackLeft);
-    // }
-    else if (keys.arrowRight && lastKey === "ArrowRight") {
-      backGround.position.x -= 5;
-      collisionTiles.tilesPositions[0].left -= 5;
+    }else {}
 
+    if (keys.arrowRight && lastKey === "ArrowRight") {
+      backGround.position.x -= 5;
+      collisionTiles.tilesPositionsLeft[0] -= 5;
+      collisionTiles.tilesPositionsRight[0] -= 5;
       mainCharacter.switchAnimation(walkAnimationRight);
     }
     if (canvas.current !== null) {
@@ -105,16 +110,18 @@ function FightField() {
       collisionTiles.drawTiles();
       mainCharacter.drawCharacter();
     }
-  }
 
-  let lastKey = "";
+    requestAnimationFrame(() => {
+      animate(collidingLeft, collidingRight, backGround, mainCharacter, collisionTiles);
+    });
+  }
 
   function setupMovement() {
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
         case "ArrowLeft":
-          keys.arrowLeft = true;
-          lastKey = "ArrowLeft";
+            keys.arrowLeft = true;
+            lastKey = "ArrowLeft";
 
           break;
         case "ArrowRight":
@@ -125,6 +132,7 @@ function FightField() {
         case "Enter":
           keys.enter = true;
           lastKey = "enter";
+
           break;
         default:
           break;

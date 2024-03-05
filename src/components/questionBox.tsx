@@ -1,18 +1,7 @@
 import { useState, useEffect } from "react";
 import questions from "../assets/Data/kanken_10k.json";
-
-type QuestionBoxProps = {
-  score: number;
-  input: string;
-  setInput: React.Dispatch<React.SetStateAction<string>>;
-  setScore: React.Dispatch<React.SetStateAction<number>>;
-};
-
-type Question = {
-  question: string;
-  answer: string[];
-  translation: string;
-};
+import QuestionBoxProps from "../classes/types/QuestionBoxProps.tsx";
+import Question from "../classes/types/Question.tsx";
 
 const defaultQuestion: Question = {
   question: "",

@@ -1,7 +1,6 @@
 import TileMap from "./TileMap";
 import InteractiveTile from "./InteractiveTile";
 import VectorsXY from "../Directions/VectorsXY";
-import LeftRight from "../Directions/LeftRight";
 
 class CreatedTiles {
   c: CanvasRenderingContext2D;
@@ -10,7 +9,8 @@ class CreatedTiles {
   tileNumber: number;
   MapWidth: number;
   offsetPosition: VectorsXY;
-  tilesPositions: LeftRight [] = [];
+  tilesPositionsLeft: number[] = [];
+  tilesPositionsRight: number[] = [];
 
   constructor(
     TilesMapData: number[],
@@ -33,11 +33,11 @@ class CreatedTiles {
     CreatedTilesMap.parseMap().forEach((row, rowIndex) => {
       row.forEach((tile, colIndex) => {
         if (tile === this.tileNumber) {
-          this.tilesPositions.push(
-            new LeftRight(
-               colIndex * this.sizeOfEachTile.x + this.offsetPosition.x,
+          this.tilesPositionsLeft.push(
+               colIndex * this.sizeOfEachTile.x + this.offsetPosition.x
+          );
+          this.tilesPositionsRight.push(
                colIndex * this.sizeOfEachTile.x + this.offsetPosition.x + this.sizeOfEachTile.x
-            )
           );
           new InteractiveTile(
             {
