@@ -9,7 +9,6 @@ import CharacterSprite from "./CharacterSprite";
 import CreatedTiles from "./CreatedTiles";
 import collisionMapData from "./assets/maps/mapIteractiveTiles/CollisionTiles/MapTest2 16x16 tiles.tsx";
 
-
 const idleAnimation = new CharacterAnimation(
   setImage(MainCharacterIdleAnimation),
   200,
@@ -41,8 +40,6 @@ function FightField() {
 
   const backGroundImg = setImage(testMaps);
 
- 
-
   const mapContentsOffSetPosition = { x: -60, y: -30 };
 
   const keys = {
@@ -70,22 +67,38 @@ function FightField() {
       return;
     }
 
-    const backGround = new Sprite(ctx, backGroundImg, mapContentsOffSetPosition);
+    const backGround = new Sprite(
+      ctx,
+      backGroundImg,
+      mapContentsOffSetPosition
+    );
     const mainCharacter = new CharacterSprite(
       ctx,
       { x: canvas.current.width / 2, y: canvas.current.height / 2 },
       idleAnimation
     );
-    const collisionTiles = new CreatedTiles(collisionMapData,{x: 32, y: 32},ctx, 649, 200,mapContentsOffSetPosition);
+    const collisionTiles = new CreatedTiles(
+      collisionMapData,
+      { x: 32, y: 32 },
+      ctx,
+      649,
+      200,
+      mapContentsOffSetPosition
+    );
 
-  
     animate(backGround, mainCharacter, collisionTiles);
     setupMovement();
     setupNotMovement(mainCharacter);
   }, []);
 
-  function animate(backGround: Sprite, mainCharacter: CharacterSprite, collisionTiles: CreatedTiles) {
-    window.requestAnimationFrame(() => animate(backGround, mainCharacter, collisionTiles));
+  function animate(
+    backGround: Sprite,
+    mainCharacter: CharacterSprite,
+    collisionTiles: CreatedTiles
+  ) {
+    window.requestAnimationFrame(() =>
+      animate(backGround, mainCharacter, collisionTiles)
+    );
 
     if (keys.arrowLeft && lastKey === "ArrowLeft") {
       backGround.position.x += 5;
@@ -93,11 +106,10 @@ function FightField() {
     }
     // else if (keys.enter && lastKey === "enter" || keys.enter && lastKey === "ArrowRight") {
     //   mainCharacter.switchAnimation(attackRight);
-    // } 
+    // }
     // else if (keys.enter && lastKey === "ArrowLeft") {
     //   mainCharacter.switchAnimation(attackLeft);
     // }
-
     else if (keys.arrowRight && lastKey === "ArrowRight") {
       backGround.position.x -= 5;
 
@@ -105,8 +117,8 @@ function FightField() {
     }
     if (canvas.current !== null) {
       backGround.draw();
-      mainCharacter.drawCharacter();
       collisionTiles.drawTiles();
+      mainCharacter.drawCharacter();
     }
   }
 
@@ -157,7 +169,7 @@ function FightField() {
   return (
     <div className=" fightField text-center my-5 justify-center items-center flex flex-col p-5 mx-auto shadow-inner ">
       <canvas
-        className=" shadow-inner"
+        className="shadow-inner"
         width="1900"
         height="300"
         id="fightField"
