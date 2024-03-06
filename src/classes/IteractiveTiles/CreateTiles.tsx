@@ -4,7 +4,6 @@ import VectorsXY from "../Directions/VectorsXY";
 import AnimatableSprite from "../ImageCreation/AnimatableSprite";
 
 class CreateTiles {
-  c: CanvasRenderingContext2D;
   TilesMapData: number[];
   sizeOfEachTile: VectorsXY;
   tileNumber: number;
@@ -15,12 +14,10 @@ class CreateTiles {
   constructor(
     TilesMapData: number[],
     sizeOfEachTile: VectorsXY,
-    c: CanvasRenderingContext2D,
     tileNumber: number,
     MapWidth: number,
     offsetPosition: VectorsXY 
   ) {
-    this.c = c;
     this.TilesMapData = TilesMapData;
     this.sizeOfEachTile = sizeOfEachTile;
     this.tileNumber = tileNumber;
@@ -28,7 +25,7 @@ class CreateTiles {
     this.offsetPosition = offsetPosition;
   }
 
-  drawTiles() {
+  drawTiles(c: CanvasRenderingContext2D) {
     this.tilesPositions = [];
     const CreateTilesMap = new TileMap( this.MapWidth, this.TilesMapData)
     CreateTilesMap.parseMap().forEach((row, rowIndex) => {
@@ -40,7 +37,7 @@ class CreateTiles {
               y: rowIndex * this.sizeOfEachTile.y + this.offsetPosition.y,
             },
             this.sizeOfEachTile,
-            this.c
+            c
           );
           this.tilesPositions.push(newTile);
           newTile.draw();

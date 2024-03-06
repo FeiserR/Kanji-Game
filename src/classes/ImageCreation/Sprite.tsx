@@ -2,21 +2,18 @@ import  VectorsXY from '../Directions/VectorsXY';
 
 
 class Sprite {
-    c: CanvasRenderingContext2D;
     image: HTMLImageElement;
     position: VectorsXY;
     constructor(
-      c: CanvasRenderingContext2D,
       image: HTMLImageElement,
       position: VectorsXY,
       ) {
-      this.c = c;
       this.position= position;
       this.image = image;
   }
     
-  draw () {
-    this.c.drawImage(this.image, this.position.x, this.position.y);
+  draw (c: CanvasRenderingContext2D) {
+   c.drawImage(this.image, this.position.x, this.position.y);
   }
 
   }

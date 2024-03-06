@@ -3,16 +3,13 @@ import CharacterAnimation from "../Animation/CharacterAnimation";
 
 class AnimatableSprite {
   currentAnimation: CharacterAnimation;
-  c : CanvasRenderingContext2D;
   position: VectorsXY;
   AnimationsArray: CharacterAnimation[] = [];
   constructor(
-    c: CanvasRenderingContext2D,
     position: VectorsXY,
     animation: CharacterAnimation,
     AnimationsArray: CharacterAnimation[] = []
   ) {
-    this.c= c;
     this.currentAnimation = animation;
     this.currentAnimation.startAnimation();
     this.position = position;
@@ -27,9 +24,9 @@ class AnimatableSprite {
   }
 
 
-  drawCharacter() {
+  drawCharacter(c: CanvasRenderingContext2D) {
     let currentFrame = this.currentAnimation.getCurrentFrame();
-    this.c.drawImage(
+    c.drawImage(
       currentFrame.image,
       currentFrame.topLeft.x,
       currentFrame.topLeft.y,

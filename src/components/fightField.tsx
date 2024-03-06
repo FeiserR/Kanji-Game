@@ -11,12 +11,13 @@ import { setMovement, setupNotMovement } from "../functions/SetUpMovement.tsx";
 
 function FightField() {
   const canvas: React.RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
-  
-  const mapContentsOffSetPosition = { x: -60, y: -30 };
-
-  const arrayOfMainCharacterAnimations = [idleAnimation, walkAnimationLeft, walkAnimationRight];
-  
   useEffect(() => {
+
+    
+    const mapContentsOffSetPosition = { x: -60, y: -30 };
+
+    const arrayOfMainCharacterAnimations = [idleAnimation, walkAnimationLeft, walkAnimationRight];
+    
     
     if (canvas.current === null) {
       console.error("Canvas is null");
@@ -34,30 +35,25 @@ function FightField() {
       return;
     }
     const dungeon = new Sprite(
-      ctx,
       backGroundImg,
       mapContentsOffSetPosition
     );
     const mainCharacter = new AnimatableSprite(
-      ctx,
       { x: 400, y: canvas.current.height / 2 },
       idleAnimation,
       arrayOfMainCharacterAnimations
     );
     const fire = new AnimatableSprite(
-      ctx,
       { x: -60, y: -95 },
       fireEffect
     );
     const brownCloud = new AnimatableSprite(
-      ctx,
       { x: 900, y: -30},
       brownCloudEffect
     );
     const collisionTiles = new CreateTiles(
       collisionMapData,
       { x: 32, y: 32 },
-      ctx,
       649,
       200,
       mapContentsOffSetPosition
@@ -67,7 +63,7 @@ function FightField() {
     if (canvas.current === null) return;
 
 
-    animate(false, false, dungeon, mainCharacter, arrayOfEffects, collisionTiles);
+    animate(ctx, false, false, dungeon, mainCharacter, arrayOfEffects, collisionTiles);
     setMovement();
     setupNotMovement(mainCharacter);
 

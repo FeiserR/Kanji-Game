@@ -4,6 +4,7 @@ import  Sprite  from "../classes/ImageCreation/Sprite";
 import  { keys, lastKey } from "./SetUpMovement";   
 
 function animate( 
+    c: CanvasRenderingContext2D,
     collidingLeft: boolean,
     collidingRight: boolean,
     backGround: Sprite,
@@ -23,32 +24,32 @@ function animate(
       } else { 
           collidingRight= false;
         }
-    } 
-    //TODO: the fire changes position once when it shouldn't when the character is colliding
+    }
+    
     if (keys.arrowLeft && lastKey === "ArrowLeft" && !collidingLeft) {
       backGround.position.x += 5;
       for (let i = 0; i < effects.length; i++) {
-        effects[i].position.x += 10;
+        effects[i].position.x += 5;
       }
       mainCharacter.switchAnimation(mainCharacter.AnimationsArray[1]);
     }
     if (keys.arrowRight && lastKey === "ArrowRight" && !collidingRight) {
       backGround.position.x -= 5;
       for (let i = 0; i < effects.length; i++) {
-        effects[i].position.x -= 10;
+        effects[i].position.x -= 5;
       }
       mainCharacter.switchAnimation(mainCharacter.AnimationsArray[2]);
     }
 
-      backGround.draw();
+      backGround.draw(c);
       for (let i = 0; i < effects.length; i++) {
-        effects[i].drawCharacter();
+        effects[i].drawCharacter(c);
       }
-      collisionTiles.drawTiles();
-      mainCharacter.drawCharacter();
+      collisionTiles.drawTiles(c);
+      mainCharacter.drawCharacter(c);
 
     requestAnimationFrame(() => {
-      animate(collidingLeft, collidingRight, backGround, mainCharacter, effects, collisionTiles);
+      animate(c, collidingLeft, collidingRight, backGround, mainCharacter, effects, collisionTiles);
     });
   }
 

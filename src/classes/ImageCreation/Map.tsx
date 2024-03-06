@@ -20,5 +20,7 @@ class Map {
         this.effects = effects;
         this.collisionMap = collisionMap;
     }
+
+    
     
 }
