@@ -1,8 +1,9 @@
 import TileMap from "./TileMap";
 import InteractiveTile from "./InteractiveTile";
 import VectorsXY from "../Directions/VectorsXY";
+import AnimatableSprite from "../ImageCreation/AnimatableSprite";
 
-class CreatedTiles {
+class CreateTiles {
   c: CanvasRenderingContext2D;
   TilesMapData: number[];
   sizeOfEachTile: VectorsXY;
@@ -29,8 +30,8 @@ class CreatedTiles {
 
   drawTiles() {
     this.tilesPositions = [];
-    const CreatedTilesMap = new TileMap( this.MapWidth, this.TilesMapData)
-    CreatedTilesMap.parseMap().forEach((row, rowIndex) => {
+    const CreateTilesMap = new TileMap( this.MapWidth, this.TilesMapData)
+    CreateTilesMap.parseMap().forEach((row, rowIndex) => {
       row.forEach((tile, colIndex) => {
         if (tile === this.tileNumber) {
           let newTile = new InteractiveTile(
@@ -50,4 +51,4 @@ class CreatedTiles {
   }
 }
 
-export default CreatedTiles;
+export default CreateTiles;

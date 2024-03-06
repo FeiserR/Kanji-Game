@@ -5,15 +5,18 @@ class AnimatableSprite {
   currentAnimation: CharacterAnimation;
   c : CanvasRenderingContext2D;
   position: VectorsXY;
+  AnimationsArray: CharacterAnimation[] = [];
   constructor(
     c: CanvasRenderingContext2D,
     position: VectorsXY,
     animation: CharacterAnimation,
+    AnimationsArray: CharacterAnimation[] = []
   ) {
     this.c= c;
     this.currentAnimation = animation;
     this.currentAnimation.startAnimation();
     this.position = position;
+    this.AnimationsArray = AnimationsArray;
   }
 
   switchAnimation(animation: CharacterAnimation) {

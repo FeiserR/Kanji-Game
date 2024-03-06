@@ -1,21 +1,23 @@
 import { useRef, useEffect } from "react";
+import  animate  from "../functions/animate.tsx";
 import Sprite from "../classes/ImageCreation/Sprite.tsx";
 import AnimatableSprite from "../classes/ImageCreation/AnimatableSprite.tsx";
-import CreatedTiles from "../classes/IteractiveTiles/CreatedTiles.tsx";
+import CreateTiles from "../classes/IteractiveTiles/CreateTiles.tsx";
 import collisionMapData from "../assets/maps/mapIteractiveTiles/CollisionTiles/MapTest2 16x16 tiles.tsx";
-import { idleAnimation,  walkAnimationRight,  walkAnimationLeft, } from "../animations/MainCharacterAnimations.tsx";
-import { fireEffect } from "../animations/EffectsAnimations/Fire-First.tsx";
-import { backGroundImg } from "../backgrounds/Backgrounds.tsx";
-import { setupMovement, setupNotMovement, keys, lastKey } from "../functions/SetUpMovement.tsx";
+import { idleAnimation,  walkAnimationRight,  walkAnimationLeft, } from "../animations/CharacterAnimations/MainCharacterAnimations.tsx";
+import { fireEffect, brownCloudEffect } from "../animations/EffectsAnimations/Effects.tsx";
+import { backGroundImg } from "../Maps/Dungeon/Backgrounds.tsx";
+import { setMovement, setupNotMovement } from "../functions/SetUpMovement.tsx";
 
 function FightField() {
-  const canvas: React.RefObject<HTMLCanvasElement> =
-    useRef<HTMLCanvasElement>(null);
-
+  const canvas: React.RefObject<HTMLCanvasElement> = useRef<HTMLCanvasElement>(null);
+  
   const mapContentsOffSetPosition = { x: -60, y: -30 };
 
+  const arrayOfMainCharacterAnimations = [idleAnimation, walkAnimationLeft, walkAnimationRight];
+  
   useEffect(() => {
-
+    
     if (canvas.current === null) {
       console.error("Canvas is null");
       return;
@@ -24,15 +26,14 @@ function FightField() {
       console.error("Canvas get content is not true");
       return;
     }
-
+    
     const ctx = canvas.current.getContext("2d");
-
+    
     if (ctx === null) {
       console.error("ctx is null");
       return;
     }
-
-    const backGround = new Sprite(
+    const dungeon = new Sprite(
       ctx,
       backGroundImg,
       mapContentsOffSetPosition
@@ -40,14 +41,20 @@ function FightField() {
     const mainCharacter = new AnimatableSprite(
       ctx,
       { x: 400, y: canvas.current.height / 2 },
-      idleAnimation
+      idleAnimation,
+      arrayOfMainCharacterAnimations
     );
     const fire = new AnimatableSprite(
       ctx,
-      { x: -60, y: -100 },
+      { x: -60, y: -95 },
       fireEffect
     );
-    const collisionTiles = new CreatedTiles(
+    const brownCloud = new AnimatableSprite(
+      ctx,
+      { x: 900, y: -30},
+      brownCloudEffect
+    );
+    const collisionTiles = new CreateTiles(
       collisionMapData,
       { x: 32, y: 32 },
       ctx,
@@ -55,57 +62,17 @@ function FightField() {
       200,
       mapContentsOffSetPosition
     );
+    const arrayOfEffects = [fire, brownCloud];
 
-    animate(false, false, backGround, mainCharacter, fire, collisionTiles);
-    setupMovement();
+    if (canvas.current === null) return;
+
+
+    animate(false, false, dungeon, mainCharacter, arrayOfEffects, collisionTiles);
+    setMovement();
     setupNotMovement(mainCharacter);
+
   }, []);
 
-  function animate( 
-    collidingLeft: boolean,
-    collidingRight: boolean,
-    backGround: Sprite,
-    mainCharacter: AnimatableSprite,
-    fire:  AnimatableSprite,
-    collisionTiles: CreatedTiles
-  ) {
-
-    if (collisionTiles.tilesPositions.length > 0 && collisionTiles.tilesPositions.length > 0) {
-      if (mainCharacter.position.x <= collisionTiles.tilesPositions[0].position.x) {
-        collidingLeft= true;
-      } else { 
-          collidingLeft= false;
-          console.log(`fire${fire.position.x}`);
-          console.log(`background${backGround.position.x}`);
-        }
-      if (mainCharacter.position.x + mainCharacter.currentAnimation.spriteSize.x >= collisionTiles.tilesPositions[1].position.x) {
-        collidingRight= true;
-      } else { 
-          collidingRight= false;
-        }
-    } 
-    //TODO: the fire changes position once when it shouldn't when the character is colliding
-    if (keys.arrowLeft && lastKey === "ArrowLeft" && !collidingLeft) {
-      backGround.position.x += 5;
-      fire.position.x += 10;
-      mainCharacter.switchAnimation(walkAnimationLeft);
-    }
-    if (keys.arrowRight && lastKey === "ArrowRight" && !collidingRight) {
-      backGround.position.x -= 5;
-      fire.position.x -= 10;
-      mainCharacter.switchAnimation(walkAnimationRight);
-    }
-    if (canvas.current !== null) {
-      backGround.draw();
-      fire.drawCharacter();
-      collisionTiles.drawTiles();
-      mainCharacter.drawCharacter();
-    }
-
-    requestAnimationFrame(() => {
-      animate(collidingLeft, collidingRight, backGround, mainCharacter, fire, collisionTiles);
-    });
-  }
 
 
   return (

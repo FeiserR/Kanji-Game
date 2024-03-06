@@ -1,5 +1,5 @@
 import AnimatableSprite from "../classes/ImageCreation/AnimatableSprite";
-import { idleAnimation } from "../animations/MainCharacterAnimations";
+import { idleAnimation } from "../animations/CharacterAnimations/MainCharacterAnimations";
 
 let keys = {
     arrowLeft: false,
@@ -9,7 +9,9 @@ let keys = {
 
 let lastKey = "";
 
-function setupMovement() {
+
+
+function setMovement() {
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
         case "ArrowLeft":
@@ -52,4 +54,19 @@ function setupNotMovement(mainCharacter: AnimatableSprite) {
     });
   }
 
-export {setupMovement, setupNotMovement, keys, lastKey};
+
+// function setMovementChanges() { 
+
+//   //TODO: the fire changes position once when it shouldn't when the character is colliding
+//   if (keys.arrowLeft && lastKey === "ArrowLeft" && !collidingLeft) {
+//     backGround.position.x += 5;
+//     fire.position.x += 10;
+//     mainCharacter.switchAnimation(walkAnimationLeft);
+//   }
+//   if (keys.arrowRight && lastKey === "ArrowRight" && !collidingRight) {
+//     backGround.position.x -= 5;
+//     fire.position.x -= 10;
+//     mainCharacter.switchAnimation(walkAnimationRight);
+// }
+
+export {setMovement, setupNotMovement, keys, lastKey};

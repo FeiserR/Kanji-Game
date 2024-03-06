@@ -1,10 +1,10 @@
-import CharacterAnimation from "../classes/Animation/CharacterAnimation";
+import CharacterAnimation from "../../classes/Animation/CharacterAnimation";
 import skeletonWalkRight from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton walkRight.png";
 import skeletonWalkLeft from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeletok walkLeft.png";
 import skeletonIdle from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton idle.png";
 import skeletonAttackRight from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton attackRight.png";
 import skeletonAttackLeft from "./assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton attackLeft2.png";
-import setImage from "../functions/setImage";
+import setImage from "../../functions/setImage";
 
 
 const idleAnimation = new CharacterAnimation(
