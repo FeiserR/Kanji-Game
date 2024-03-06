@@ -20,7 +20,6 @@ class CharacterSprite {
     if (animation.name === this.currentAnimation.name) { return }
     this.currentAnimation = animation;
     this.currentAnimation.startAnimation();
-
   }
 
 

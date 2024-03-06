@@ -9,8 +9,7 @@ class CreatedTiles {
   tileNumber: number;
   MapWidth: number;
   offsetPosition: VectorsXY;
-  tilesPositionsLeft: number[] = [];
-  tilesPositionsRight: number[] = [];
+  tilesPositions: InteractiveTile[] = [];
 
   constructor(
     TilesMapData: number[],
@@ -29,25 +28,23 @@ class CreatedTiles {
   }
 
   drawTiles() {
+    this.tilesPositions = [];
     const CreatedTilesMap = new TileMap( this.MapWidth, this.TilesMapData)
     CreatedTilesMap.parseMap().forEach((row, rowIndex) => {
       row.forEach((tile, colIndex) => {
         if (tile === this.tileNumber) {
-          this.tilesPositionsLeft.push(
-               colIndex * this.sizeOfEachTile.x + this.offsetPosition.x
-          );
-          this.tilesPositionsRight.push(
-               colIndex * this.sizeOfEachTile.x + this.offsetPosition.x + this.sizeOfEachTile.x
-          );
-          console.log(`Inside${colIndex *this.sizeOfEachTile.x + this.offsetPosition.x}`)
-          new InteractiveTile(
+          let newTile = new InteractiveTile(
             {
               x: colIndex * this.sizeOfEachTile.x + this.offsetPosition.x,
               y: rowIndex * this.sizeOfEachTile.y + this.offsetPosition.y,
             },
             this.sizeOfEachTile,
             this.c
-          ).draw();
+          );
+          this.tilesPositions.push(newTile);
+          console.log("newTile", newTile.position.x);
+          newTile.draw();
+          // console.log("newTile", newTile);
         }
       });
     });

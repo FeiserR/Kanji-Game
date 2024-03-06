@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import Sprite from "../classes/ImageCreation/Sprite.tsx";
 import CharacterSprite from "../classes/ImageCreation/CharacterSprite.tsx";
 import CreatedTiles from "../classes/IteractiveTiles/CreatedTiles.tsx";
@@ -6,27 +6,13 @@ import collisionMapData from "../assets/maps/mapIteractiveTiles/CollisionTiles/M
 import { idleAnimation,  walkAnimationRight,  walkAnimationLeft, } from "../animations/MainCharacterAnimations.tsx";
 import {fireEffect} from "../animations/EffectsAnimations/Fire-First.tsx";
 import { backGroundImg } from "../backgrounds/Backgrounds.tsx";
+import { setupMovement, setupNotMovement, keys, lastKey } from "../functions/SetUpMovement.tsx";
 
 function FightField() {
   const canvas: React.RefObject<HTMLCanvasElement> =
     useRef<HTMLCanvasElement>(null);
 
   const mapContentsOffSetPosition = { x: -60, y: -30 };
-
-//  let collidingLeft = false;
-// let collidingRight = false;
-
-  let lastKey = "";
-  
-
-  const keys = {
-    arrowUp: false,
-    arrowDown: false,
-    arrowLeft: false,
-    arrowRight: false,
-    enter: false,
-  };
-  
 
   useEffect(() => {
 
@@ -84,17 +70,16 @@ function FightField() {
     collisionTiles: CreatedTiles
   ) {
 
-    if (collisionTiles.tilesPositionsLeft.length > 0 && collisionTiles.tilesPositionsRight.length > 0) {
-      if (mainCharacter.position.x <= collisionTiles.tilesPositionsRight[0]) {
+    if (collisionTiles.tilesPositions.length > 0 && collisionTiles.tilesPositions.length > 0) {
+      if (mainCharacter.position.x <= collisionTiles.tilesPositions[0].position.x) {
         collidingLeft= true;
       } else { 
+        console.log(`Outside${collisionTiles.tilesPositions[0].position.x}`)
           collidingLeft= false;
         }
-        //TODO: have to fix the collision on the right side
-      if (mainCharacter.position.x + mainCharacter.currentAnimation.spriteSize.x >= collisionTiles.tilesPositionsLeft[1]) {
+      if (mainCharacter.position.x + mainCharacter.currentAnimation.spriteSize.x >= collisionTiles.tilesPositions[1].position.x) {
         collidingRight= true;
       } else { 
-        console.log(`outside${collisionTiles.tilesPositionsLeft[1]}`)
           collidingRight= false;
         }
     } 
@@ -102,19 +87,11 @@ function FightField() {
     if (keys.arrowLeft && lastKey === "ArrowLeft" && !collidingLeft) {
       backGround.position.x += 5;
       fire.position.x += 5;
-      collisionTiles.tilesPositionsLeft[0] += 5;
-      collisionTiles.tilesPositionsRight[0] += 5;
-      collisionTiles.tilesPositionsLeft[1] += 5;
-      collisionTiles.tilesPositionsRight[1] += 5;
       mainCharacter.switchAnimation(walkAnimationLeft);
     }
     if (keys.arrowRight && lastKey === "ArrowRight" && !collidingRight) {
       backGround.position.x -= 5;
       fire.position.x -= 5;
-      collisionTiles.tilesPositionsLeft[0] -= 5;
-      collisionTiles.tilesPositionsRight[0] -= 5;
-      collisionTiles.tilesPositionsLeft[1] -= 5;
-      collisionTiles.tilesPositionsRight[1] -= 5;
       mainCharacter.switchAnimation(walkAnimationRight);
     }
     if (canvas.current !== null) {
@@ -129,48 +106,6 @@ function FightField() {
     });
   }
 
-  function setupMovement() {
-    window.addEventListener("keydown", (e) => {
-      switch (e.key) {
-        case "ArrowLeft":
-            keys.arrowLeft = true;
-            lastKey = "ArrowLeft";
-
-          break;
-        case "ArrowRight":
-          keys.arrowRight = true;
-          lastKey = "ArrowRight";
-
-          break;
-        case "Enter":
-          keys.enter = true;
-          lastKey = "enter";
-
-          break;
-        default:
-          break;
-      }
-    });
-  }
-
-  function setupNotMovement(mainCharacter: CharacterSprite) {
-    window.addEventListener("keyup", (e) => {
-      switch (e.key) {
-        case "ArrowLeft":
-          keys.arrowLeft = false;
-          mainCharacter.switchAnimation(idleAnimation);
-
-          break;
-        case "ArrowRight":
-          keys.arrowRight = false;
-          mainCharacter.switchAnimation(idleAnimation);
-
-          break;
-        default:
-          break;
-      }
-    });
-  }
 
   return (
     <div className=" text-center my-5 justify-center items-center flex flex-col p-5 mx-auto shadow-inner ">
