@@ -42,7 +42,6 @@ class CreatedTiles {
             this.c
           );
           this.tilesPositions.push(newTile);
-          console.log("newTile", newTile.position.x);
           newTile.draw();
           // console.log("newTile", newTile);
         }

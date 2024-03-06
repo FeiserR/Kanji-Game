@@ -44,7 +44,7 @@ function FightField() {
     );
     const fire = new CharacterSprite(
       ctx,
-      { x: 900, y: -100 },
+      { x: -60, y: -100 },
       fireEffect
     );
     const collisionTiles = new CreatedTiles(
@@ -74,8 +74,9 @@ function FightField() {
       if (mainCharacter.position.x <= collisionTiles.tilesPositions[0].position.x) {
         collidingLeft= true;
       } else { 
-        console.log(`Outside${collisionTiles.tilesPositions[0].position.x}`)
           collidingLeft= false;
+          console.log(`fire${fire.position.x}`);
+          console.log(`background${backGround.position.x}`);
         }
       if (mainCharacter.position.x + mainCharacter.currentAnimation.spriteSize.x >= collisionTiles.tilesPositions[1].position.x) {
         collidingRight= true;
@@ -83,15 +84,19 @@ function FightField() {
           collidingRight= false;
         }
     } 
-    //TODO: Organize the movement of everything that moves by making a movement class
+ 
     if (keys.arrowLeft && lastKey === "ArrowLeft" && !collidingLeft) {
       backGround.position.x += 5;
-      fire.position.x += 5;
+      fire.position.x += 10;
+      // console.log(`fire${fire.position.x}`);
+      // console.log(`background${backGround.position.x}`);
       mainCharacter.switchAnimation(walkAnimationLeft);
     }
     if (keys.arrowRight && lastKey === "ArrowRight" && !collidingRight) {
       backGround.position.x -= 5;
-      fire.position.x -= 5;
+      fire.position.x -= 10;
+      // console.log(`fire${fire.position.x}`);
+      // console.log(`background${backGround.position.x}`);
       mainCharacter.switchAnimation(walkAnimationRight);
     }
     if (canvas.current !== null) {

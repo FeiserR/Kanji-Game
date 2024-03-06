@@ -19,14 +19,12 @@ function QuestionBox({ score, setScore, input, setInput }: QuestionBoxProps) {
     while (nextQuestion === currentQuestion) {
       nextQuestion = getRandomQuestion();
     }
-    console.log("nextQuestion", nextQuestion);
     setInput("");
     setCurrentQuestion(nextQuestion);
   }
 
   // verify if the input is correct and then change the question//
   useEffect(() => {
-    console.log("input", input);
     currentQuestion.answer.forEach((answer) => {
       if (input === answer) {
         setScore(score + 1);
