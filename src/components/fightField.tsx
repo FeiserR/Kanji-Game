@@ -3,7 +3,8 @@ import Sprite from "../classes/ImageCreation/Sprite.tsx";
 import CharacterSprite from "../classes/ImageCreation/CharacterSprite.tsx";
 import CreatedTiles from "../classes/IteractiveTiles/CreatedTiles.tsx";
 import collisionMapData from "../assets/maps/mapIteractiveTiles/CollisionTiles/MapTest2 16x16 tiles.tsx";
-import { idleAnimation,  walkAnimationRight,  walkAnimationLeft,} from "../animations/MainCharacterAnimations.tsx";
+import { idleAnimation,  walkAnimationRight,  walkAnimationLeft, } from "../animations/MainCharacterAnimations.tsx";
+import {fireEffect} from "../animations/EffectsAnimations/Fire-First.tsx";
 import { backGroundImg } from "../backgrounds/Backgrounds.tsx";
 
 function FightField() {
@@ -55,6 +56,11 @@ function FightField() {
       { x: 400, y: canvas.current.height / 2 },
       idleAnimation
     );
+    const fire = new CharacterSprite(
+      ctx,
+      { x: 900, y: -100 },
+      fireEffect
+    );
     const collisionTiles = new CreatedTiles(
       collisionMapData,
       { x: 32, y: 32 },
@@ -64,7 +70,7 @@ function FightField() {
       mapContentsOffSetPosition
     );
 
-    animate(false, false, backGround, mainCharacter, collisionTiles);
+    animate(false, false, backGround, mainCharacter, fire, collisionTiles);
     setupMovement();
     setupNotMovement(mainCharacter);
   }, []);
@@ -74,45 +80,52 @@ function FightField() {
     collidingRight: boolean,
     backGround: Sprite,
     mainCharacter: CharacterSprite,
+    fire:  CharacterSprite,
     collisionTiles: CreatedTiles
   ) {
 
     if (collisionTiles.tilesPositionsLeft.length > 0 && collisionTiles.tilesPositionsRight.length > 0) {
       if (mainCharacter.position.x <= collisionTiles.tilesPositionsRight[0]) {
-        console.log("colliding");
-        console.log(collidingLeft)
         collidingLeft= true;
       } else { 
-          console.log("not colliding");
-          console.log(collidingLeft)
           collidingLeft= false;
         }
-        // if (mainCharacter.position.x +  >= collisionTiles.tilesPositionsLeft[0]) {
-        //   collidingRight = true;
-        // }
+        //TODO: have to fix the collision on the right side
+      if (mainCharacter.position.x + mainCharacter.currentAnimation.spriteSize.x >= collisionTiles.tilesPositionsLeft[1]) {
+        collidingRight= true;
+      } else { 
+        console.log(`outside${collisionTiles.tilesPositionsLeft[1]}`)
+          collidingRight= false;
+        }
     } 
-    
+    //TODO: Organize the movement of everything that moves by making a movement class
     if (keys.arrowLeft && lastKey === "ArrowLeft" && !collidingLeft) {
       backGround.position.x += 5;
+      fire.position.x += 5;
       collisionTiles.tilesPositionsLeft[0] += 5;
       collisionTiles.tilesPositionsRight[0] += 5;
+      collisionTiles.tilesPositionsLeft[1] += 5;
+      collisionTiles.tilesPositionsRight[1] += 5;
       mainCharacter.switchAnimation(walkAnimationLeft);
-    }else {}
-
-    if (keys.arrowRight && lastKey === "ArrowRight") {
+    }
+    if (keys.arrowRight && lastKey === "ArrowRight" && !collidingRight) {
       backGround.position.x -= 5;
+      fire.position.x -= 5;
       collisionTiles.tilesPositionsLeft[0] -= 5;
       collisionTiles.tilesPositionsRight[0] -= 5;
+      collisionTiles.tilesPositionsLeft[1] -= 5;
+      collisionTiles.tilesPositionsRight[1] -= 5;
       mainCharacter.switchAnimation(walkAnimationRight);
     }
     if (canvas.current !== null) {
       backGround.draw();
+      fire.drawCharacter();
       collisionTiles.drawTiles();
       mainCharacter.drawCharacter();
     }
 
     requestAnimationFrame(() => {
-      animate(collidingLeft, collidingRight, backGround, mainCharacter, collisionTiles);
+      animate(collidingLeft, collidingRight, backGround, mainCharacter, fire, collisionTiles);
     });
   }
 

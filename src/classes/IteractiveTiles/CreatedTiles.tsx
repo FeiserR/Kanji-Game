@@ -39,6 +39,7 @@ class CreatedTiles {
           this.tilesPositionsRight.push(
                colIndex * this.sizeOfEachTile.x + this.offsetPosition.x + this.sizeOfEachTile.x
           );
+          console.log(`Inside${colIndex *this.sizeOfEachTile.x + this.offsetPosition.x}`)
           new InteractiveTile(
             {
               x: colIndex * this.sizeOfEachTile.x + this.offsetPosition.x,
