@@ -1,4 +1,4 @@
-import CharacterSprite from "../classes/ImageCreation/CharacterSprite";
+import AnimatableSprite from "../classes/ImageCreation/AnimatableSprite";
 import { idleAnimation } from "../animations/MainCharacterAnimations";
 
 let keys = {
@@ -33,7 +33,7 @@ function setupMovement() {
     });
     }
 
-function setupNotMovement(mainCharacter: CharacterSprite) {
+function setupNotMovement(mainCharacter: AnimatableSprite) {
     window.addEventListener("keyup", (e) => {
       switch (e.key) {
         case "ArrowLeft":

@@ -1,7 +1,7 @@
 import VectorsXY from "../Directions/VectorsXY";
 import CharacterAnimation from "../Animation/CharacterAnimation";
 
-class CharacterSprite {
+class AnimatableSprite {
   currentAnimation: CharacterAnimation;
   c : CanvasRenderingContext2D;
   position: VectorsXY;
@@ -20,6 +20,7 @@ class CharacterSprite {
     if (animation.name === this.currentAnimation.name) { return }
     this.currentAnimation = animation;
     this.currentAnimation.startAnimation();
+
   }
 
 
@@ -39,4 +40,4 @@ class CharacterSprite {
     // console.log();
   }
 }
-export default CharacterSprite;
+export default AnimatableSprite;

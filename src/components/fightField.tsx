@@ -1,10 +1,10 @@
 import { useRef, useEffect } from "react";
 import Sprite from "../classes/ImageCreation/Sprite.tsx";
-import CharacterSprite from "../classes/ImageCreation/CharacterSprite.tsx";
+import AnimatableSprite from "../classes/ImageCreation/AnimatableSprite.tsx";
 import CreatedTiles from "../classes/IteractiveTiles/CreatedTiles.tsx";
 import collisionMapData from "../assets/maps/mapIteractiveTiles/CollisionTiles/MapTest2 16x16 tiles.tsx";
 import { idleAnimation,  walkAnimationRight,  walkAnimationLeft, } from "../animations/MainCharacterAnimations.tsx";
-import {fireEffect} from "../animations/EffectsAnimations/Fire-First.tsx";
+import { fireEffect } from "../animations/EffectsAnimations/Fire-First.tsx";
 import { backGroundImg } from "../backgrounds/Backgrounds.tsx";
 import { setupMovement, setupNotMovement, keys, lastKey } from "../functions/SetUpMovement.tsx";
 
@@ -37,12 +37,12 @@ function FightField() {
       backGroundImg,
       mapContentsOffSetPosition
     );
-    const mainCharacter = new CharacterSprite(
+    const mainCharacter = new AnimatableSprite(
       ctx,
       { x: 400, y: canvas.current.height / 2 },
       idleAnimation
     );
-    const fire = new CharacterSprite(
+    const fire = new AnimatableSprite(
       ctx,
       { x: -60, y: -100 },
       fireEffect
@@ -65,8 +65,8 @@ function FightField() {
     collidingLeft: boolean,
     collidingRight: boolean,
     backGround: Sprite,
-    mainCharacter: CharacterSprite,
-    fire:  CharacterSprite,
+    mainCharacter: AnimatableSprite,
+    fire:  AnimatableSprite,
     collisionTiles: CreatedTiles
   ) {
 
@@ -84,19 +84,15 @@ function FightField() {
           collidingRight= false;
         }
     } 
- 
+    //TODO: the fire changes position once when it shouldn't when the character is colliding
     if (keys.arrowLeft && lastKey === "ArrowLeft" && !collidingLeft) {
       backGround.position.x += 5;
       fire.position.x += 10;
-      // console.log(`fire${fire.position.x}`);
-      // console.log(`background${backGround.position.x}`);
       mainCharacter.switchAnimation(walkAnimationLeft);
     }
     if (keys.arrowRight && lastKey === "ArrowRight" && !collidingRight) {
       backGround.position.x -= 5;
       fire.position.x -= 10;
-      // console.log(`fire${fire.position.x}`);
-      // console.log(`background${backGround.position.x}`);
       mainCharacter.switchAnimation(walkAnimationRight);
     }
     if (canvas.current !== null) {
