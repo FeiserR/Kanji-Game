@@ -18,8 +18,8 @@ class InterativeTile {
 
     draw() {
         //make the fillStyle transparent
-        // this.c.fillStyle = "rgba(0, 0, 0, 0)";
-        this.c.fillStyle = "green";
+        this.c.fillStyle = "rgba(0, 0, 0, 0)";
+        // this.c.fillStyle = "green";
         this.c.fillRect( this.position.x, this.position.y, this.size.x, this.size.y);
     }
 }

@@ -1,7 +1,6 @@
 import TileMap from "./TileMap";
 import InteractiveTile from "./InteractiveTile";
 import VectorsXY from "../Directions/VectorsXY";
-import AnimatableSprite from "../ImageCreation/AnimatableSprite";
 
 class CreateTiles {
   TilesMapData: number[];
@@ -32,10 +31,10 @@ class CreateTiles {
       row.forEach((tile, colIndex) => {
         if (tile === this.tileNumber) {
           let newTile = new InteractiveTile(
-            {
-              x: colIndex * this.sizeOfEachTile.x + this.offsetPosition.x,
-              y: rowIndex * this.sizeOfEachTile.y + this.offsetPosition.y,
-            },
+            new VectorsXY(
+              colIndex * this.sizeOfEachTile.x + this.offsetPosition.x,
+              rowIndex * this.sizeOfEachTile.y + this.offsetPosition.y,
+            ),
             this.sizeOfEachTile,
             c
           );

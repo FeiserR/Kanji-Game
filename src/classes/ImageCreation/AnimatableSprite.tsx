@@ -10,10 +10,19 @@ class AnimatableSprite {
     animation: CharacterAnimation,
     AnimationsArray: CharacterAnimation[] = []
   ) {
-    this.currentAnimation = animation;
+    this.currentAnimation = new CharacterAnimation(
+      animation.image, animation.spriteSize.x, animation.frameDelay, animation.name 
+      );
     this.currentAnimation.startAnimation();
     this.position = position;
-    this.AnimationsArray = AnimationsArray;
+    this.AnimationsArray = AnimationsArray.map((animation) => {
+      return new CharacterAnimation(
+        animation.image, animation.spriteSize.x, animation.frameDelay, animation.name
+        );
+    }
+    );
+  
+
   }
 
   switchAnimation(animation: CharacterAnimation) {

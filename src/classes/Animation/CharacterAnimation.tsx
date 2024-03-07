@@ -28,6 +28,7 @@ class CharacterAnimation {
     this.spriteFrame = 0;
   }
 
+
   getCurrentFrame() {
     let currentTime = Date.now();
     let frameTime = currentTime - this.FrameStartTime;

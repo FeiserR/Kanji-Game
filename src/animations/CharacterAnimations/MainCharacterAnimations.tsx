@@ -1,6 +1,7 @@
 import MainCharacterIdleAnimation from "../../assets/characters/MainCharacter/MainCharacter Idle animation.png";
 import MainCharacterRunningRight from "../../assets/characters/MainCharacter/MainCharacter running animation.png";
 import MainCharacterRunningLeft from "../../assets/characters/MainCharacter/MainCharacter running left animation.png";
+import MainCharacterAttack from "../../assets/characters/MainCharacter/MainCharacterAttack.png";
 import CharacterAnimation from "../../classes/Animation/CharacterAnimation.tsx";
 import setImage from "../../functions/setImage.tsx";
 
@@ -23,4 +24,12 @@ const idleAnimation = new CharacterAnimation(
     "walk"
   );
 
-  export {idleAnimation, walkAnimationRight, walkAnimationLeft, setImage};
+  const AttackAnimation = new CharacterAnimation(
+    setImage(MainCharacterAttack),
+    200,
+    40,
+    "Attack"
+  );
+
+
+  export {idleAnimation, walkAnimationRight, walkAnimationLeft, AttackAnimation, setImage};

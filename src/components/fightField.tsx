@@ -1,19 +1,11 @@
 import { useRef, useEffect } from "react";
 import animate from "../functions/animate.tsx";
-import AnimatableSprite from "../classes/ImageCreation/AnimatableSprite.tsx";
-import {  idleAnimation,  walkAnimationRight,  walkAnimationLeft,} from "../animations/CharacterAnimations/MainCharacterAnimations.tsx";
-import { setMovement, setupNotMovement } from "../functions/SetUpMovement.tsx";
-import { dungeonMap } from "../Maps/Dungeon/Map.tsx";
+import { fightingDungeonMap } from "../Maps/Map.tsx";
 
 function FightField() {
   const canvas: React.RefObject<HTMLCanvasElement> =
     useRef<HTMLCanvasElement>(null);
   useEffect(() => {
-    const arrayOfMainCharacterAnimations = [
-      idleAnimation,
-      walkAnimationLeft,
-      walkAnimationRight,
-    ];
 
     if (canvas.current === null) {
       console.error("Canvas is null");
@@ -30,17 +22,10 @@ function FightField() {
       console.error("ctx is null");
       return;
     }
-    const mainCharacter = new AnimatableSprite(
-      { x: 400, y: 150 },
-      idleAnimation,
-      arrayOfMainCharacterAnimations
-    );
 
     if (canvas.current === null) return;
 
-    animate(ctx, false, false, dungeonMap);
-    setMovement();
-    setupNotMovement(mainCharacter);
+    animate(ctx, false, false, fightingDungeonMap);
   }, []);
 
   return (
