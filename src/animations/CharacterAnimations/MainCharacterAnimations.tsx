@@ -32,4 +32,4 @@ const idleAnimation = new CharacterAnimation(
   );
 
 
-  export {idleAnimation, walkAnimationRight, walkAnimationLeft, AttackAnimation, setImage};
+  export {idleAnimation, walkAnimationRight, walkAnimationLeft, AttackAnimation, setImage as setImage};

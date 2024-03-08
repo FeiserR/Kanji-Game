@@ -3,6 +3,8 @@ import CharacterAnimation from "../classes/Animation/CharacterAnimation";
 import VectorsXY from "../classes/Directions/VectorsXY";
 import { FireBall, Magic } from "../classes/ImageCreation/Magic";
 import Map from "../classes/ImageCreation/Map";
+import { useState } from "react";
+import { maps } from "../Maps/Map";
 
 let keys = {
   arrowLeft: false,
@@ -10,8 +12,10 @@ let keys = {
   enter: false,
   enterJustPressed: false,
 };
+const mapContentsOffSetPosition = new VectorsXY ( -60, -30 );
 
 let lastKey = "";
+
 
 let spells: CharacterAnimation = fireMagic;
 
@@ -21,6 +25,8 @@ function animate(
   collidingRight: boolean,
   map: Map
 ) {
+  let currentMap = map;
+
   if (map.movement === true) {
     window.addEventListener("keydown", (e) => {
       switch (e.key) {
@@ -114,6 +120,14 @@ function animate(
       case "2":
         spells = fireMagic2;
         break;
+        case "0":
+          console.log("0 pressed");
+          currentMap = maps.dungeon;
+          map.background.position = mapContentsOffSetPosition
+          break;
+        case "9":
+          currentMap = maps.fightingDungeon;
+          break;
       default:
         break;
     }
@@ -168,7 +182,7 @@ function animate(
   keys.enterJustPressed = false;
   
   requestAnimationFrame(() => {
-    animate(c, collidingLeft, collidingRight, map);
+    animate(c, collidingLeft, collidingRight, currentMap);
   });
 }
 

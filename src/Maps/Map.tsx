@@ -4,7 +4,7 @@ import  Sprite  from "../classes/ImageCreation/Sprite.tsx";
 import collisionMapData from "../assets/maps/mapIteractiveTiles/CollisionTiles/MapTest2 16x16 tiles.tsx";
 import { idleAnimation,  walkAnimationRight,  walkAnimationLeft, AttackAnimation } from "../animations/CharacterAnimations/MainCharacterAnimations.tsx";
 import { fireEffect, brownCloudEffect } from "../animations/EffectsAnimations/Effects.tsx";
-import { backGroundImg } from "./Backgrounds.tsx";
+import { backGroundImg, backGroundImg2 } from "./Backgrounds.tsx";
 import Map from "../classes/ImageCreation/Map.tsx";
 import { SkeletonIdleRightAnimation, SkeletonIdleLeftAnimation, SkeletonAttackLeft }  from "../animations/CharacterAnimations/SkeletonAnimations.tsx";
 import VectorsXY from "../classes/Directions/VectorsXY.tsx";
@@ -47,7 +47,7 @@ const arrayOfSkeletonAnimations = [SkeletonIdleRightAnimation, SkeletonIdleLeftA
 
 const arrayOfComponets = [fire, brownCloud];
 
-const dungeonMap = new Map(true, dungeon, mainCharacter, arrayOfComponets, [], collisionTiles);
+const dungeonMap = new Map(true, dungeon, mainCharacter, [], arrayOfComponets, collisionTiles);
 
 
 
@@ -58,7 +58,7 @@ const fightingMainCharacter = new AnimatableSprite(
 );
 
 const fightingDungeon = new Sprite(
-  backGroundImg,
+  backGroundImg2,
   mapContentsOffSetPosition
 );
 
@@ -73,4 +73,9 @@ const arrayOfFightingDungeonEnemies = [skeleton];
 
 const fightingDungeonMap = new Map(false, fightingDungeon, fightingMainCharacter, [], arrayOfFightingDungeonEnemies , collisionTiles);
 
-export {dungeonMap, fightingDungeonMap};
+const maps = {
+  dungeon: dungeonMap,
+  fightingDungeon: fightingDungeonMap
+}
+
+export {maps};
