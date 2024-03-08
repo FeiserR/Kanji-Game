@@ -52,7 +52,7 @@ const dungeonMap = new Map(true, dungeon, mainCharacter, arrayOfComponets, [], c
 
 
 const fightingMainCharacter = new AnimatableSprite(
-  new VectorsXY( 100,  150 ),
+  new VectorsXY( 400,  150 ),
   idleAnimation,
   arrayOfMainCharacterAnimations
 );
@@ -64,13 +64,13 @@ const fightingDungeon = new Sprite(
 
 
 const skeleton = new AnimatableSprite(
-  new VectorsXY( 1700,  160 ),
+  new VectorsXY( 1400,  160 ),
   SkeletonIdleLeftAnimation,
   arrayOfSkeletonAnimations
 );
 
-const arrayOfFightingDungeonComponets = [skeleton];
+const arrayOfFightingDungeonEnemies = [skeleton];
 
-const fightingDungeonMap = new Map(false, fightingDungeon, fightingMainCharacter, [], arrayOfFightingDungeonComponets, collisionTiles);
+const fightingDungeonMap = new Map(false, fightingDungeon, fightingMainCharacter, [], arrayOfFightingDungeonEnemies , collisionTiles);
 
 export {dungeonMap, fightingDungeonMap};

@@ -1,5 +1,6 @@
 import { fireMagic, fireMagic2 } from "../animations/EffectsAnimations/Magic";
 import CharacterAnimation from "../classes/Animation/CharacterAnimation";
+import VectorsXY from "../classes/Directions/VectorsXY";
 import { FireBall, Magic } from "../classes/ImageCreation/Magic";
 import Map from "../classes/ImageCreation/Map";
 
@@ -92,11 +93,6 @@ function animate(
           ); // idleAnimation
 
           break;
-        case "Enter":
-          keys.enter = false;
-          // idleAnimation
-
-          break;
         default:
           break;
       }
@@ -143,11 +139,14 @@ function animate(
   for (let i = 0; i < map.effects.length; i++) {
     map.effects[i].drawCharacter(c);
   }
+
+  const spawnPostion=  new VectorsXY( map.mainCharacter.position.x + 100, map.mainCharacter.position.y);
+
   if (map.movement === false) {
     if (keys.enterJustPressed === true) {
       map.mainCharacter.switchAnimation(map.mainCharacter.AnimationsArray[3]);
       const magic = new FireBall(
-        map.mainCharacter.position,
+        spawnPostion ,
         map.enemies[0].position,
         5,
         spells
