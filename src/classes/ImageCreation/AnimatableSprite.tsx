@@ -27,9 +27,9 @@ class AnimatableSprite {
 
   switchAnimation(animation: CharacterAnimation) {
     if (animation.name === this.currentAnimation.name) { return }
+    // console.log("swiching animation");
     this.currentAnimation = animation;
     this.currentAnimation.startAnimation();
-
   }
 
 

@@ -17,7 +17,7 @@ class Magic extends AnimatableSprite {
     
 }
 
-class FireBall extends Magic {
+class ProjectileMagic extends Magic {
     target: VectorsXY;
     speed: number;
     velocity: VectorsXY;
@@ -26,9 +26,9 @@ class FireBall extends Magic {
     spawnPosition: VectorsXY,
     target: VectorsXY,
     speed: number,
-    fireMagic: CharacterAnimation
+    spellAnimation: CharacterAnimation
   ) {
-    super(spawnPosition, fireMagic, [fireMagic]);
+    super(spawnPosition, spellAnimation, [spellAnimation]);
     this.target = target;
     this.speed = speed;
     this.velocity = target.subtract(spawnPosition).getDirection().multiply(speed);
@@ -48,4 +48,4 @@ class FireBall extends Magic {
     
 }
 
-export {Magic , FireBall};
+export {Magic , ProjectileMagic};

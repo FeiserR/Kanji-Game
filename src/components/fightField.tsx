@@ -1,6 +1,5 @@
 import { useRef, useEffect } from "react";
 import animate from "../functions/animate.tsx";
-import { maps } from "../Maps/Map.tsx";
 
 function FightField() {
   const canvas: React.RefObject<HTMLCanvasElement> =
@@ -29,7 +28,7 @@ function FightField() {
 
     if (canvas.current === null) return;
 
-    animate(ctx, false, false, maps.dungeon);
+    animate(ctx);
   }, []);
 
 
