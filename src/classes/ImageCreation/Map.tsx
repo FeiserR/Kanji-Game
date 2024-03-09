@@ -34,6 +34,7 @@ class BaseMap {
   }
 
   drawMap(c: CanvasRenderingContext2D, keyMap: KeyMap) {
+    keyMap = keyMap;
     this.background.draw(c);
 
     for (let i = 0; i < this.enemies.length; i++) {

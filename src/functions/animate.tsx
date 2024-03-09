@@ -17,12 +17,12 @@ function switchMap (map: BaseMap) : BaseMap {
   }
   return newMap;
 }
-
+//the animate function is the main loop of the game and it recalls itself at the end of the function with the requestAnimationFrame function
 function animate(
   c: CanvasRenderingContext2D,
 ) {
+
   frameKeyMap.processKeyMap(keyMap);
-  // console.log("keyMap", keyMap);
 
   c.clearRect(0, 0, window.innerWidth, window.innerHeight);
   c.beginPath();
