@@ -9,12 +9,13 @@ const defaultQuestion: Question = {
   translation: "",
 };
 
-function QuestionBox({ score, setScore, input, setInput }: QuestionBoxProps) {
+function QuestionBox({ score, setScore, input, setInput, setPreviousQuestion, setCorrectAnswer, setAnswerCorrect }: QuestionBoxProps) {
   const [currentQuestion, setCurrentQuestion] = useState(defaultQuestion);
 
   function goToNextQuestion() {
     // don't allow the same question to be asked twice in a row//
 
+    
     let nextQuestion = getRandomQuestion();
     while (nextQuestion === currentQuestion) {
       nextQuestion = getRandomQuestion();
@@ -28,9 +29,18 @@ function QuestionBox({ score, setScore, input, setInput }: QuestionBoxProps) {
     currentQuestion.answer.forEach((answer) => {
       if (input === answer) {
         setScore(score + 1);
+        setPreviousQuestion (currentQuestion.question);
+        setCorrectAnswer (currentQuestion.answer[0]);
         goToNextQuestion();
       }
     });
+
+    
+  if (input == currentQuestion.answer[0]) {
+    setAnswerCorrect(true);
+  } else {
+    setAnswerCorrect(false);
+  }
   }, [input]);
 
   //this useeffect has no deppendencies so it only runs once//
@@ -45,9 +55,9 @@ function QuestionBox({ score, setScore, input, setInput }: QuestionBoxProps) {
   }
 
   return (
-    <div className=" text-center rounded-lg p-3 w-3/4 mx-auto max-w-3xl h-96 flex flex-col justify-center">
+    <div className="QuestionBox">
       {/* <p>currentQuestion length {currentQuestion.answer.length}</p> */}
-      <p className="w-3/4 mx-auto font-bold  text-9xl">
+      <p className="QuestionBoxText">
         {currentQuestion.question}
       </p>
     </div>

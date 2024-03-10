@@ -1,9 +1,12 @@
 import { setImage } from "../animations/CharacterAnimations/MainCharacterAnimations.tsx";
-import testMaps2 from "../assets/maps/Testmaps/testMap2.png";
-import testMaps from "../assets/maps/Testmaps/testMap1.png";
+import dungeonImage from "../assets/maps/UsableMaps/dungeon.png";
+import forestShopImage from "../assets/maps/UsableMaps/forestShop.png";
+import testMapsImage from "../assets/maps/Testmaps/testMap1.png";
 
-const backGroundImg = setImage(testMaps2);
+const dungeonBackground = setImage(dungeonImage);
 
-const backGroundImg2 = setImage(testMaps);
+const backGroundImg2 = setImage(testMapsImage);
 
-export {backGroundImg, backGroundImg2}
+const forestShop = setImage(forestShopImage);
+
+export {dungeonBackground, backGroundImg2, forestShop}

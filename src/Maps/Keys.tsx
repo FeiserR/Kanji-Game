@@ -12,6 +12,15 @@ class Key {
     this.justPressed = !keyBoardEvent.repeat;
 //since this is inverted it will print true and then false false false false...
   }
+  framePress() {
+    if (!this.pressed) {
+      this.justPressed = true;
+    } else {
+      this.justPressed = false;
+    }
+    this.pressed = true;
+  }
+    
 //the release method sets the pressed and justPressed attributes to false
   Release() {
     this.pressed = false;
@@ -41,6 +50,20 @@ class KeyMap {
       this.keyDictionary[e.key].Release();
     });
   }
+  processKeyMap(keyMap: KeyMap) {
+    for (let key in keyMap.keyDictionary) {
+      if (!(key in this.keyDictionary)) {
+        this.keyDictionary[key] = new Key();
+        // console.log(" key added ", key );
+      }
+      if (keyMap.keyDictionary[key].pressed) {
+          this.keyDictionary[key].framePress();
+        
+      } else {
+        this.keyDictionary[key].Release();
+      }
+    }
+  }
 //the constructor makes a KeyMap object and calls the eventListeners method if the argument is true 
   constructor(attachEventListeners: boolean = true) {
     if (attachEventListeners) {
@@ -49,45 +72,7 @@ class KeyMap {
   }
 }
 
-class FrameKey extends Key {
-  Press() {
-    // console.log("Frame pressed");
-    if (!this.pressed) {
-      this.justPressed = true;
-    } else {
-      this.justPressed = false;
-    }
-    this.pressed = true;
-  }
-  Release() {
-    this.pressed = false;
-    this.justPressed = false;
-  }
-}
-
-class FrameKeyMap extends KeyMap {
-  keyDictionary: { [key: string]: FrameKey } = {};
-  initialized = true;
-  processKeyMap(keyMap: KeyMap) {
-    for (let key in keyMap.keyDictionary) {
-      if (!(key in this.keyDictionary)) {
-        this.keyDictionary[key] = new FrameKey();
-        // console.log(" key added ", key );
-      }
-      if (keyMap.keyDictionary[key].pressed) {
-          this.keyDictionary[key].Press();
-        
-      } else {
-        this.keyDictionary[key].Release();
-      }
-    }
-  }
-  constructor() {
-  //the constructor of the FrameKeyMap class calls the constructor of the KeyMap class and sets the initialized attribute to true
-    super(false);
-  }
-}
 
 // const mapContentsOffSetPosition = new VectorsXY(-60, -30);
 
-export { KeyMap, FrameKeyMap, Key };
+export { KeyMap, Key };

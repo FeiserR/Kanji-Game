@@ -3,32 +3,41 @@ import QuestionBox from "./questionBox";
 import ScoreBar from "./scoreBar";
 import TypeBox from "./typeBox";
 import { useState } from "react";
-import background from "../assets/pictures/Background.png";
+import CorrectAnswersDisplay from "./CorrectAnswersDisplay";
 
 function App() {
   const [score, setScore] = useState(0);
+
+  const [previousQuestion, setPreviousQuestion] = useState("");
+
+  const [correctAnswer, setCorrectAnswer] = useState("");
+
+  const [answerCorrect, setAnswerCorrect] = useState(false);
 
   const [input, setInput] = useState("");
 
   return (
     <>
-      {/* make the background image fit in the page rather than making the page bigger */}
-      <div
-        className=" bg-center h-screen w-screen bg-no-repeat bg-fixed bg-contain overflow-hidden"
-        style={{ backgroundImage: `url(${background})` }}
-      >
-        {/* every value that is passed to a component needs to be passed as a prop, so
-       it's necessary to include it in the props of the component */}
+      <div className="flex flex-col items-center h-screen justify-between bg-gray-800">
         <FightField />
-        <div className="flex">
+        <div className="flex flex-col gap-10">
           <ScoreBar score={score} />
 
-          <div className="pl-96 flex flex-col justify-center items-center">
+          <CorrectAnswersDisplay
+          previousQuestion={previousQuestion}
+          correctAnswer={correctAnswer}
+          answerCorrect={answerCorrect}
+          />
+
+          <div className="flex flex-col gap-4">
             <QuestionBox
               score={score}
               input={input}
               setInput={setInput}
               setScore={setScore}
+              setPreviousQuestion={setPreviousQuestion}
+              setCorrectAnswer={setCorrectAnswer}
+              setAnswerCorrect={setAnswerCorrect}
             />
 
             <TypeBox input={input} setInput={setInput} />

@@ -33,10 +33,10 @@ function FightField() {
 
 
   return (
-    <div className=" text-center my-5 justify-center items-center flex flex-col p-5 mx-auto shadow-inner ">
+    <div className="w-full backdrop-contrast-125 flex justify-center">
       <canvas
         className="shadow-inner"
-        width="1900"
+        width="1800"
         height="300"
         id="fightField"
         ref={canvas}

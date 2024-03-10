@@ -81,19 +81,13 @@ class MovementMap extends BaseMap {
       this.collisionMap.tilesPositions.length > 0 &&
       this.collisionMap.tilesPositions.length > 0
     ) {
-      if (
-        this.mainCharacter.position.x <=
-        this.collisionMap.tilesPositions[0].position.x
+      if ( 0 <= this.collisionMap.tilesPositions[0].position.x
       ) {
         collidingLeft = true;
       } else {
         collidingLeft = false;
       }
-      if (
-        this.mainCharacter.position.x +
-          this.mainCharacter.currentAnimation.spriteSize.x >=
-        this.collisionMap.tilesPositions[1].position.x
-      ) {
+      if ( 1868 >= this.collisionMap.tilesPositions[1].position.x ) {
         collidingRight = true;
       } else {
         collidingRight = false;
