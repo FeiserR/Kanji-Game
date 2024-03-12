@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import questions from "../assets/Data/kanken_10k.json";
+import questions from "../assets/Data/common.json";
 import QuestionBoxProps from "../classes/types/QuestionBoxProps.tsx";
 import Question from "../classes/types/Question.tsx";
 
@@ -56,8 +56,7 @@ function QuestionBox({ score, setScore, input, setInput, setPreviousQuestion, se
 
   return (
     <div className="QuestionBox">
-      {/* <p>currentQuestion length {currentQuestion.answer.length}</p> */}
-      <p className="QuestionBoxText">
+      <p className="text-white text-5xl">
         {currentQuestion.question}
       </p>
     </div>

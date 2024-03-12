@@ -13,15 +13,23 @@ import createAnaswerBlock from '../functions/createAnswerBlock';
         console.log(previousQuestion)
 
         const display: HTMLElement = document.getElementById("display")!;
-        let block = document.createElement("p");
+        let block = document.createElement("div");
         block.classList.add("block");
         
-        answersDictionary[previousQuestion] = createAnaswerBlock(previousQuestion, correctAnswer );
+        answersDictionary[previousQuestion] = createAnaswerBlock(previousQuestion, correctAnswer);
+
+        let question= document.createElement("h1");
+        question.classList.add("question");
+
+        let answer = document.createElement("p");
+        answer.classList.add("answer");
            
         
-        block.textContent = answersDictionary[previousQuestion].question;
-        block.textContent += answersDictionary[previousQuestion].answer;
+        question.textContent = answersDictionary[previousQuestion].question;
+        answer.textContent = answersDictionary[previousQuestion].answer;
 
+        block.appendChild(question);
+        block.appendChild(answer);
         display.appendChild(block);
 
 
@@ -32,7 +40,7 @@ import createAnaswerBlock from '../functions/createAnswerBlock';
 
 
         return (
-            <div id='display' className='flex absolute'>
+            <div id='display' className=' rounded-2xl border-2 border-black flex text-center fit-content gap-5 p-2 flex-wrap bg-neutral-900 overflow-auto h-96 items-start'>
 
             </div>
         )

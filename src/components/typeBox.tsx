@@ -1,5 +1,6 @@
 import transformations from "../assets/Data/hiragana";
 import React from "react";
+import "./app.css";
 
 //Props for TypeBox//
 type TypeBoxProps = {
@@ -17,7 +18,7 @@ function transformString(input: string) {
   const mappedLetters = transformations[char];
 //compare the event key to any of the elements of an array of all the numbers
 
-  const blockedSymbols = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "-","_","=","+","[","]","{","}","|",";",":","'","<",">","?","/",".",",","!","@","#","$","%","^","&","*","(",")","~","`","_","-"," ","'",'"',"\\"];
+  const blockedSymbols = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9","_","=","+","[","]","{","}","|",";",":","'","<",">","?","/",".",",","!","@","#","$","%","^","&","*","(",")","~","`","_","-"," ","'",'"',"\\"];
 
   window.addEventListener('keypress', function(event) {
     if (blockedSymbols.includes(event.key)) {
@@ -44,7 +45,7 @@ function TypeBox({ input, setInput }: TypeBoxProps) {
     <>
       <input
         id="typeBox"
-        className="typingBox"
+        className="w-1/2 h-10 p-2 text-2xl text-cente decoration-black"
         onChange={handleInputChange}
         type="text"
         value={transformString(input)}

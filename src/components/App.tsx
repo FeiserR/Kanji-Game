@@ -4,6 +4,7 @@ import ScoreBar from "./scoreBar";
 import TypeBox from "./typeBox";
 import { useState } from "react";
 import CorrectAnswersDisplay from "./CorrectAnswersDisplay";
+import "./app.css";
 
 function App() {
   const [score, setScore] = useState(0);
@@ -18,29 +19,32 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col items-center h-screen justify-between bg-gray-800">
+      <div className="flex flex-col h-screen justify-start bg-slate-200">
         <FightField />
-        <div className="flex flex-col gap-10">
-          <ScoreBar score={score} />
-
-          <CorrectAnswersDisplay
-          previousQuestion={previousQuestion}
-          correctAnswer={correctAnswer}
-          answerCorrect={answerCorrect}
-          />
-
-          <div className="flex flex-col gap-4">
-            <QuestionBox
-              score={score}
-              input={input}
-              setInput={setInput}
-              setScore={setScore}
-              setPreviousQuestion={setPreviousQuestion}
-              setCorrectAnswer={setCorrectAnswer}
-              setAnswerCorrect={setAnswerCorrect}
+        <div className="flex justify-between ">
+          <div className="m-10">
+            <ScoreBar score={score} />
+          </div>
+          <div className="correctAnswersDisplay flex flex-col gap-10 m-10 bg-neutral-900 rounded-2xl shadow-2xl justify-between content-start">
+            <CorrectAnswersDisplay
+              previousQuestion={previousQuestion}
+              correctAnswer={correctAnswer}
+              answerCorrect={answerCorrect}
             />
 
-            <TypeBox input={input} setInput={setInput} />
+            <div className="flex flex-col gap-4 place-items-center m-3">
+              <QuestionBox
+                score={score}
+                input={input}
+                setInput={setInput}
+                setScore={setScore}
+                setPreviousQuestion={setPreviousQuestion}
+                setCorrectAnswer={setCorrectAnswer}
+                setAnswerCorrect={setAnswerCorrect}
+              />
+
+              <TypeBox input={input} setInput={setInput} />
+            </div>
           </div>
         </div>
       </div>
