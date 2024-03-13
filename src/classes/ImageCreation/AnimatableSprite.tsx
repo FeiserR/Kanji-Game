@@ -49,4 +49,5 @@ class AnimatableSprite {
     // console.log();
   }
 }
+
 export default AnimatableSprite;

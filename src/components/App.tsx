@@ -19,7 +19,7 @@ function App() {
 
   return (
     <>
-      <div className="flex flex-col h-screen justify-start bg-slate-200">
+      <div className="flex flex-col h-screen justify-start bg-slate-400">
         <FightField />
         <div className="flex justify-between ">
           <div className="m-10">

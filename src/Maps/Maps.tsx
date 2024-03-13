@@ -11,7 +11,6 @@ import VectorsXY from "../classes/Directions/VectorsXY.tsx";
 
 const mapContentsOffSetPosition = new VectorsXY ( -60, 0 );
 
-const arrayOfMainCharacterAnimations = [idleAnimation, walkAnimationLeft, walkAnimationRight, AttackAnimation];
 const arrayOfSkeletonAnimations = [SkeletonIdleRightAnimation, SkeletonIdleLeftAnimation, SkeletonAttackLeft];
 
   const dungeon = new Sprite(
@@ -22,7 +21,7 @@ const arrayOfSkeletonAnimations = [SkeletonIdleRightAnimation, SkeletonIdleLeftA
   const mainCharacter = new AnimatableSprite(
     new VectorsXY( 400,  160 ),
     idleAnimation,
-    arrayOfMainCharacterAnimations
+    [idleAnimation, walkAnimationLeft, walkAnimationRight, AttackAnimation]
   );
 
   const fire = new AnimatableSprite(
@@ -49,13 +48,6 @@ const arrayOfComponets = [fire, brownCloud];
 const dungeonMap = new MovementMap(true, dungeon, mainCharacter, arrayOfComponets, [], collisionTiles);
 
 
-
-const fightingMainCharacter = new AnimatableSprite(
-  new VectorsXY( 400,  160 ),
-  idleAnimation,
-  arrayOfMainCharacterAnimations
-);
-
 const fightingDungeon = new Sprite(
   backGroundImg2,
   mapContentsOffSetPosition
@@ -70,7 +62,7 @@ const skeleton = new AnimatableSprite(
 
 const arrayOfFightingDungeonEnemies = [skeleton];
 
-const fightingDungeonMap = new BattleMap(false, fightingDungeon, fightingMainCharacter, [], arrayOfFightingDungeonEnemies , collisionTiles);
+const fightingDungeonMap = new BattleMap(false, fightingDungeon, mainCharacter, [], arrayOfFightingDungeonEnemies , collisionTiles);
 
 const forestShopBackground = new Sprite(
   forestShop,

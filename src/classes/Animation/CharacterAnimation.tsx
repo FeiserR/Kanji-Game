@@ -7,7 +7,7 @@ class CharacterAnimation {
   spriteSize: VectorsXY;
   totalFrames: number;
   FrameStartTime = Date.now();
-  frameDelay: number = 100;
+  frameDelay: number;
   name: string;
 
   constructor(
