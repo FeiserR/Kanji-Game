@@ -2,19 +2,20 @@ import Sprite from "../../classes/ImageCreation/Sprite.tsx";
 import AnimatableSprite from "../../classes/ImageCreation/AnimatableSprite.tsx";
 import CreateTiles from "../../classes/IteractiveTiles/CreateTiles.tsx";
 import { Magic, ProjectileMagic } from "./Magic.tsx";
-import {KeyMap} from "../../Maps/Keys.tsx";
+import { KeyMap } from "../../Maps/Keys.tsx";
 import {
   fireMagic,
   fireMagic2,
 } from "../../animations/EffectsAnimations/Magic.tsx";
 import VectorsXY from "../Directions/VectorsXY.tsx";
+import { Enemy } from "./Being.tsx";
 
 class BaseMap {
   movement: boolean;
   background: Sprite;
   mainCharacter: AnimatableSprite;
   effects: (AnimatableSprite | Magic)[] = [];
-  enemies: AnimatableSprite[] = [];
+  enemies: Enemy[] = [];
   collisionMap: CreateTiles;
 
   constructor(
@@ -22,7 +23,7 @@ class BaseMap {
     background: Sprite,
     mainCharacter: AnimatableSprite,
     effects: (AnimatableSprite | Magic)[],
-    enemies: AnimatableSprite[],
+    enemies: Enemy[],
     collisionMap: CreateTiles
   ) {
     this.movement = movement;
@@ -64,7 +65,7 @@ class MovementMap extends BaseMap {
     background: Sprite,
     mainCharacter: AnimatableSprite,
     effects: (AnimatableSprite | Magic)[],
-    enemies: AnimatableSprite[],
+    enemies: Enemy[],
     collisionMap: CreateTiles
   ) {
     super(movement, background, mainCharacter, effects, enemies, collisionMap);
@@ -74,20 +75,25 @@ class MovementMap extends BaseMap {
     let collidingLeft: boolean = false;
     let collidingRight: boolean = false;
     let movementDirection =
-      Number("ArrowRight" in keyMap.keyDictionary && keyMap.keyDictionary.ArrowRight.pressed) -
-      Number("ArrowLeft" in keyMap.keyDictionary && keyMap.keyDictionary.ArrowLeft.pressed);
+      Number(
+        "ArrowRight" in keyMap.keyDictionary &&
+          keyMap.keyDictionary.ArrowRight.pressed
+      ) -
+      Number(
+        "ArrowLeft" in keyMap.keyDictionary &&
+          keyMap.keyDictionary.ArrowLeft.pressed
+      );
 
     if (
       this.collisionMap.tilesPositions.length > 0 &&
       this.collisionMap.tilesPositions.length > 0
     ) {
-      if ( 0 <= this.collisionMap.tilesPositions[0].position.x
-      ) {
+      if (0 <= this.collisionMap.tilesPositions[0].position.x) {
         collidingLeft = true;
       } else {
         collidingLeft = false;
       }
-      if ( 1868 >= this.collisionMap.tilesPositions[1].position.x ) {
+      if (1868 >= this.collisionMap.tilesPositions[1].position.x) {
         collidingRight = true;
       } else {
         collidingRight = false;
@@ -117,8 +123,9 @@ class MovementMap extends BaseMap {
 }
 
 class BattleMap extends BaseMap {
+  projectiles: ProjectileMagic[] = [];
   spellLibrary: {
-    [key: string]: (position: VectorsXY, target: VectorsXY) => Magic;
+    [key: string]: (position: VectorsXY, target: VectorsXY) => ProjectileMagic;
   } = {};
 
   constructor(
@@ -126,14 +133,16 @@ class BattleMap extends BaseMap {
     background: Sprite,
     mainCharacter: AnimatableSprite,
     effects: (AnimatableSprite | Magic)[],
-    enemies: AnimatableSprite[],
+    projectiles: ProjectileMagic[],
+    enemies: Enemy[],
     collisionMap: CreateTiles
   ) {
     super(movement, background, mainCharacter, effects, enemies, collisionMap);
-    this.spellLibrary["1"] = (position: VectorsXY, target: VectorsXY) => {
-      return new ProjectileMagic(position, target, 5, fireMagic);
-    };
-    this.spellLibrary["2"] = (position: VectorsXY, target: VectorsXY) => {
+    this.projectiles = projectiles;
+    // this.spellLibrary["1"] = (position: VectorsXY, target: VectorsXY) => {
+    //   return new ProjectileMagic(position, target, 5, fireMagic);
+    // };
+    this.spellLibrary["Enter"] = (position: VectorsXY, target: VectorsXY) => {
       return new ProjectileMagic(position, target, 5, fireMagic2);
     };
   }
@@ -144,18 +153,43 @@ class BattleMap extends BaseMap {
     );
 
     Object.keys(this.spellLibrary).forEach((spellKey) => {
-      if (spellKey in keyMap.keyDictionary && keyMap.keyDictionary[spellKey].justPressed) {
+      if (
+        spellKey in keyMap.keyDictionary &&
+        keyMap.keyDictionary[spellKey].justPressed
+      ) {
         const magic = this.spellLibrary[spellKey](
           spawnPostion,
           this.enemies[0].position
         );
         this.effects.push(magic);
+        this.projectiles.push(magic);
       }
     });
 
-    super.drawMap(c, keyMap);
+    //filter effects to only ProjectileMagic
+    this.projectiles
+      .forEach((spell) => {
+        if (spell.targetHit) {
+          this.projectiles = this.projectiles.filter(
+            (projectile) => projectile !== spell
+          );
+          // console.log("Inside if",spell.targetHit);
+          const enemy = this.enemies[0];
+          if (enemy.health > 0) {
+            enemy.health -= 10;
+          }
+          console.log(enemy.health);
+          if ( !enemy.dead && enemy.health <= 0) {
+            enemy.dead = true;
+            console.log("Enemy Dead");
+            enemy.switchAnimation(enemy.AnimationsArray[4]
+              );
+          }
+        }
+      });
 
+    super.drawMap(c, keyMap);
   }
 }
 
-export  {BaseMap , MovementMap, BattleMap };
+export { BaseMap, MovementMap, BattleMap };

@@ -9,18 +9,21 @@ class CharacterAnimation {
   FrameStartTime = Date.now();
   frameDelay: number;
   name: string;
-
+  shouldLoop: number;
   constructor(
     image: HTMLImageElement,
     spriteWidth: number,
     frameDelay: number,
-    name: string
+    name: string,
+    shouldLoop: number = 0
   ) {
     this.image = image;
     this.spriteSize = new VectorsXY(spriteWidth, image.height);
     this.totalFrames = Math.floor(image.width / this.spriteSize.x);
     this.frameDelay = frameDelay;
     this.name = name;
+    console.log(`CharacterAnimation ${name} created. ShouldLood: ${shouldLoop}`);
+    this.shouldLoop = shouldLoop;
   }
 
   startAnimation() {
@@ -28,7 +31,9 @@ class CharacterAnimation {
     this.spriteFrame = 0;
   }
 
-
+  getLastFrame() {
+    return new AnimationFrame(this.image, new VectorsXY(this.spriteSize.x * (this.totalFrames - 1), 0), this.spriteSize);
+  }
   getCurrentFrame() {
     let currentTime = Date.now();
     let frameTime = currentTime - this.FrameStartTime;
@@ -37,7 +42,8 @@ class CharacterAnimation {
       this.FrameStartTime = currentTime;
     }
     let topLeftXY = new VectorsXY(this.spriteSize.x * this.spriteFrame, 0);
-    return new AnimationFrame(this.image, topLeftXY, this.spriteSize);
+    const nextFrame = new AnimationFrame(this.image, topLeftXY, this.spriteSize);
+    return  nextFrame
   }
 }
 

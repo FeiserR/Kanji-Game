@@ -3,6 +3,8 @@ import VectorsXY from "../Directions/VectorsXY";
 import AnimatableSprite from "./AnimatableSprite";
 
 class Being extends AnimatableSprite {
+    health: number;
+    dead: boolean = false;
   constructor(
     position: VectorsXY,
     animation: CharacterAnimation,
@@ -10,6 +12,7 @@ class Being extends AnimatableSprite {
     health: number = 100,
   ) {
     super(position, animation, AnimationsArray);
+    this.health = health;
   }
 }
 
@@ -29,7 +32,7 @@ class Enemy extends Being {
     position: VectorsXY,
     animation: CharacterAnimation,
     AnimationsArray: CharacterAnimation[] = [],
-    health: number = 100,
+    health: number = 10,
   ) {
     super(position, animation, AnimationsArray, health);
   }

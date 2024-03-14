@@ -5,6 +5,8 @@ import skeletonIdleRight from "../../assets/characters/Skeleton Sprite Sheets/Sk
 import skeletonAttackRight from "../../assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton attackRight.png";
 import skeletonAttackLeft from "../../assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton attackLeft2.png";
 import setImage from "../../functions/setImage";
+import skeletonHit from "../../assets/characters/Skeleton Sprite Sheets/Skeleton/SkeletonHit.png";
+import skeletonDeath from "../../assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton DeathLeft.png";
 import SkeletonIdleAnimationLeft from "../../assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton idleLeft.png";
 
 
@@ -45,4 +47,19 @@ const SkeletonAttackLeft = new CharacterAnimation(
   "attack"
 );
 
-export { SkeletonIdleRightAnimation, SkeletonWalkAnimationRight, SkeletonWalkAnimationLeft, SkeletonAttackRight, SkeletonAttackLeft, SkeletonIdleLeftAnimation }
+const SkeletonHit = new CharacterAnimation(
+  setImage(skeletonHit),
+  120,
+  100,
+  "hit"
+);
+
+const SkeletonDeathAnimation = new CharacterAnimation(
+  setImage(skeletonDeath),
+  132,
+  50,
+  "death",
+  1
+);
+
+export { SkeletonIdleRightAnimation, SkeletonWalkAnimationRight, SkeletonWalkAnimationLeft, SkeletonAttackRight, SkeletonAttackLeft, SkeletonIdleLeftAnimation,SkeletonHit, SkeletonDeathAnimation}

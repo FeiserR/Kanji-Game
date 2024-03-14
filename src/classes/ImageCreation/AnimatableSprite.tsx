@@ -11,13 +11,13 @@ class AnimatableSprite {
     AnimationsArray: CharacterAnimation[] = []
   ) {
     this.currentAnimation = new CharacterAnimation(
-      animation.image, animation.spriteSize.x, animation.frameDelay, animation.name 
+      animation.image, animation.spriteSize.x, animation.frameDelay, animation.name, animation.shouldLoop
       );
     this.currentAnimation.startAnimation();
     this.position = position;
     this.AnimationsArray = AnimationsArray.map((animation) => {
       return new CharacterAnimation(
-        animation.image, animation.spriteSize.x, animation.frameDelay, animation.name
+        animation.image, animation.spriteSize.x, animation.frameDelay, animation.name,  animation.shouldLoop
         );
     }
     );
@@ -32,9 +32,19 @@ class AnimatableSprite {
     this.currentAnimation.startAnimation();
   }
 
+  animationEnded() {
+    return this.currentAnimation.spriteFrame === this.currentAnimation.totalFrames - 1;
+  }
+
+
 
   drawCharacter(c: CanvasRenderingContext2D) {
-    let currentFrame = this.currentAnimation.getCurrentFrame();
+    let currentFrame = this.currentAnimation.getCurrentFrame()
+      if (this.currentAnimation.spriteFrame === this.currentAnimation.totalFrames - 1) {
+        currentFrame = this.currentAnimation.getLastFrame();
+      }
+
+    
     c.drawImage(
       currentFrame.image,
       currentFrame.topLeft.x,

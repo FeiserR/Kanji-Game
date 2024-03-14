@@ -6,19 +6,20 @@ import { idleAnimation,  walkAnimationRight,  walkAnimationLeft, AttackAnimation
 import { fireEffect, brownCloudEffect } from "../animations/EffectsAnimations/Effects.tsx";
 import { dungeonBackground, backGroundImg2, forestShop } from "./Backgrounds.tsx";
 import { BattleMap, MovementMap } from "../classes/ImageCreation/Map.tsx";
-import { SkeletonIdleRightAnimation, SkeletonIdleLeftAnimation, SkeletonAttackLeft }  from "../animations/CharacterAnimations/SkeletonAnimations.tsx";
+import { SkeletonIdleRightAnimation, SkeletonIdleLeftAnimation, SkeletonAttackLeft, SkeletonHit, SkeletonDeathAnimation }  from "../animations/CharacterAnimations/SkeletonAnimations.tsx";
 import VectorsXY from "../classes/Directions/VectorsXY.tsx";
+import { Enemy, MainCharacter } from "../classes/ImageCreation/Being.tsx";
 
 const mapContentsOffSetPosition = new VectorsXY ( -60, 0 );
 
-const arrayOfSkeletonAnimations = [SkeletonIdleRightAnimation, SkeletonIdleLeftAnimation, SkeletonAttackLeft];
+const arrayOfSkeletonAnimations = [SkeletonIdleRightAnimation, SkeletonIdleLeftAnimation, SkeletonAttackLeft, SkeletonHit, SkeletonDeathAnimation];
 
   const dungeon = new Sprite(
     dungeonBackground,
     mapContentsOffSetPosition
   );
 
-  const mainCharacter = new AnimatableSprite(
+  const mainCharacter = new MainCharacter(
     new VectorsXY( 400,  160 ),
     idleAnimation,
     [idleAnimation, walkAnimationLeft, walkAnimationRight, AttackAnimation]
@@ -54,7 +55,7 @@ const fightingDungeon = new Sprite(
 );
 
 
-const skeleton = new AnimatableSprite(
+const skeleton = new Enemy(
   new VectorsXY( 1400,  170 ),
   SkeletonIdleLeftAnimation,
   arrayOfSkeletonAnimations
@@ -62,7 +63,7 @@ const skeleton = new AnimatableSprite(
 
 const arrayOfFightingDungeonEnemies = [skeleton];
 
-const fightingDungeonMap = new BattleMap(false, fightingDungeon, mainCharacter, [], arrayOfFightingDungeonEnemies , collisionTiles);
+const fightingDungeonMap = new BattleMap(false, fightingDungeon, mainCharacter, [],[], arrayOfFightingDungeonEnemies , collisionTiles);
 
 const forestShopBackground = new Sprite(
   forestShop,
