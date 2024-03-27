@@ -1,4 +1,6 @@
-import CharacterAnimation from "../../classes/Animation/CharacterAnimation";
+//creates and exports animations
+
+import Animation from "../../classes/Animation/Animation";
 import skeletonWalkRight from "../../assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton walkRight.png";
 import skeletonWalkLeft from "../../assets/characters/Skeleton Sprite Sheets/Skeleton/Skeletok walkLeft.png";
 import skeletonIdleRight from "../../assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton idle.png";
@@ -10,51 +12,51 @@ import skeletonDeath from "../../assets/characters/Skeleton Sprite Sheets/Skelet
 import SkeletonIdleAnimationLeft from "../../assets/characters/Skeleton Sprite Sheets/Skeleton/Skeleton idleLeft.png";
 
 
-const SkeletonIdleRightAnimation = new CharacterAnimation(
+const SkeletonIdleRightAnimation = new Animation(
     setImage(skeletonIdleRight),
     96,
     100,
     "Idle"
   );
-const SkeletonIdleLeftAnimation = new CharacterAnimation(
+const SkeletonIdleLeftAnimation = new Animation(
     setImage(SkeletonIdleAnimationLeft),
     96,
     100,
     "Idle"
   );
-const SkeletonWalkAnimationRight = new CharacterAnimation(
+const SkeletonWalkAnimationRight = new Animation(
   setImage(skeletonWalkRight),
   88,
   100,
   "walk"
 );
-const SkeletonWalkAnimationLeft = new CharacterAnimation(
+const SkeletonWalkAnimationLeft = new Animation(
   setImage(skeletonWalkLeft),
   88,
   100,
   "walk"
 );
-const SkeletonAttackRight = new CharacterAnimation(
+const SkeletonAttackRight = new Animation(
   setImage(skeletonAttackRight),
   172,
   100,
   "attack"
 );
-const SkeletonAttackLeft = new CharacterAnimation(
+const SkeletonAttackLeft = new Animation(
   setImage(skeletonAttackLeft),
   172,
   100,
   "attack"
 );
 
-const SkeletonHit = new CharacterAnimation(
+const SkeletonHit = new Animation(
   setImage(skeletonHit),
   120,
   100,
   "hit"
 );
 
-const SkeletonDeathAnimation = new CharacterAnimation(
+const SkeletonDeathAnimation = new Animation(
   setImage(skeletonDeath),
   132,
   50,

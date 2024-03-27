@@ -1,13 +1,13 @@
-import VectorsXY from "../Directions/VectorsXY";
+import Vector from "../Directions/VectorsXY";
 
 class InterativeTile {
     c: CanvasRenderingContext2D;
-    position: VectorsXY;
-    size: VectorsXY;
+    position: Vector;
+    size: Vector;
 
     constructor(
-        position: VectorsXY, 
-        size: VectorsXY , 
+        position: Vector, 
+        size: Vector , 
         c: CanvasRenderingContext2D
         ) {
         this.c = c;

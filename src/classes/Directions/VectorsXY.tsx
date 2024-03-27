@@ -1,4 +1,6 @@
-class VectorsXY {
+//creates a two dimensional vector with coordinates x and y
+
+class Vector {
     x: number;
     y: number;
     constructor(x:number, y:number) {
@@ -10,18 +12,18 @@ class VectorsXY {
       return Math.sqrt(this.x * this.x + this.y * this.y);
     }
     getDirection() {
-      return new VectorsXY(this.x / this.getLength(), this.y / this.getLength());
+      return new Vector(this.x / this.getLength(), this.y / this.getLength());
     }
-    add(vector: VectorsXY) {
-      return new VectorsXY(this.x + vector.x, this.y + vector.y);
+    add(vector: Vector) {
+      return new Vector(this.x + vector.x, this.y + vector.y);
     }
-    subtract(vector: VectorsXY) {
-      return new VectorsXY(this.x - vector.x, this.y - vector.y);
+    subtract(vector: Vector) {
+      return new Vector(this.x - vector.x, this.y - vector.y);
     }
     multiply(scalar: number) {
-      return new VectorsXY(this.x * scalar, this.y * scalar);
+      return new Vector(this.x * scalar, this.y * scalar);
     }
   }
 
 
-  export default VectorsXY;
+  export default Vector;

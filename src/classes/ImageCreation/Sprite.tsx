@@ -1,12 +1,12 @@
-import  VectorsXY from '../Directions/VectorsXY';
+import  Vector from '../Directions/VectorsXY';
 
 
 class Sprite {
     image: HTMLImageElement;
-    position: VectorsXY;
+    position: Vector;
     constructor(
       image: HTMLImageElement,
-      position: VectorsXY,
+      position: Vector,
       ) {
       this.position= position;
       this.image = image;

@@ -1,15 +1,17 @@
+//separates the animatable sprites into what they are being used to represent
+
 import  AnimatableSprite  from './AnimatableSprite';
-import VectorsXY from '../Directions/VectorsXY';
-import CharacterAnimation from '../Animation/CharacterAnimation';
+import Vector from '../Directions/VectorsXY';
+import Animation from '../Animation/Animation';
 
 
 class Magic extends AnimatableSprite {
     active: boolean = true;
 
   constructor(
-    position: VectorsXY,
-    animation: CharacterAnimation,
-    AnimationsArray: CharacterAnimation[] = []
+    position: Vector,
+    animation: Animation,
+    AnimationsArray: Animation[] = []
     ) {
     super( position, animation, AnimationsArray);
 
@@ -18,16 +20,16 @@ class Magic extends AnimatableSprite {
 }
 
 class ProjectileMagic extends Magic {
-    target: VectorsXY;
+    target: Vector;
     speed: number;
-    velocity: VectorsXY;
+    velocity: Vector;
    public targetHit: boolean = false;
 
   constructor(
-    spawnPosition: VectorsXY,
-    target: VectorsXY,
+    spawnPosition: Vector,
+    target: Vector,
     speed: number,
-    spellAnimation: CharacterAnimation
+    spellAnimation: Animation
   ) {
     super(spawnPosition, spellAnimation, [spellAnimation]);
     this.target = target;

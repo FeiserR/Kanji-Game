@@ -1,12 +1,12 @@
 import {  BaseMap } from "../classes/ImageCreation/Map";
 import { maps } from "../Maps/Maps";
 import {KeyMap, }  from "../Maps/Keys";
-import VectorsXY from "../classes/Directions/VectorsXY";
+import Vector from "../classes/Directions/VectorsXY";
 
 const keyMap = new KeyMap();
 const frameKeyMap = new KeyMap(false);
 let  currentMap: BaseMap = maps.dungeon
-const mapContentsOffSetPosition = new VectorsXY ( -60, 0 );
+const mapContentsOffSetPosition = new Vector ( -60, 0 );
 
 //the animate function is the main loop of the game and it recalls itself at the end of the function with the requestAnimationFrame function
 function animate(

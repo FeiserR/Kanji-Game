@@ -7,7 +7,7 @@ import {
   fireMagic,
   fireMagic2,
 } from "../../animations/EffectsAnimations/Magic.tsx";
-import VectorsXY from "../Directions/VectorsXY.tsx";
+import Vector from "../Directions/VectorsXY.tsx";
 import { Enemy } from "./Being.tsx";
 
 class BaseMap {
@@ -125,7 +125,7 @@ class MovementMap extends BaseMap {
 class BattleMap extends BaseMap {
   projectiles: ProjectileMagic[] = [];
   spellLibrary: {
-    [key: string]: (position: VectorsXY, target: VectorsXY) => ProjectileMagic;
+    [key: string]: (position: Vector, target: Vector) => ProjectileMagic;
   } = {};
 
   constructor(
@@ -142,12 +142,12 @@ class BattleMap extends BaseMap {
     // this.spellLibrary["1"] = (position: VectorsXY, target: VectorsXY) => {
     //   return new ProjectileMagic(position, target, 5, fireMagic);
     // };
-    this.spellLibrary["Enter"] = (position: VectorsXY, target: VectorsXY) => {
+    this.spellLibrary["Enter"] = (position: Vector, target: Vector) => {
       return new ProjectileMagic(position, target, 5, fireMagic2);
     };
   }
   drawMap(c: CanvasRenderingContext2D, keyMap: KeyMap) {
-    const spawnPostion = new VectorsXY(
+    const spawnPostion = new Vector(
       this.mainCharacter.position.x + 100,
       this.mainCharacter.position.y
     );

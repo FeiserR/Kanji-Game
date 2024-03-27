@@ -7,10 +7,10 @@ import { fireEffect, brownCloudEffect } from "../animations/EffectsAnimations/Ef
 import { dungeonBackground, backGroundImg2, forestShop } from "./Backgrounds.tsx";
 import { BattleMap, MovementMap } from "../classes/ImageCreation/Map.tsx";
 import { SkeletonIdleRightAnimation, SkeletonIdleLeftAnimation, SkeletonAttackLeft, SkeletonHit, SkeletonDeathAnimation }  from "../animations/CharacterAnimations/SkeletonAnimations.tsx";
-import VectorsXY from "../classes/Directions/VectorsXY.tsx";
+import Vector from "../classes/Directions/VectorsXY.tsx";
 import { Enemy, MainCharacter } from "../classes/ImageCreation/Being.tsx";
 
-const mapContentsOffSetPosition = new VectorsXY ( -60, 0 );
+const mapContentsOffSetPosition = new Vector ( -60, 0 );
 
 const arrayOfSkeletonAnimations = [SkeletonIdleRightAnimation, SkeletonIdleLeftAnimation, SkeletonAttackLeft, SkeletonHit, SkeletonDeathAnimation];
 
@@ -20,24 +20,24 @@ const arrayOfSkeletonAnimations = [SkeletonIdleRightAnimation, SkeletonIdleLeftA
   );
 
   const mainCharacter = new MainCharacter(
-    new VectorsXY( 400,  160 ),
+    new Vector( 400,  160 ),
     idleAnimation,
     [idleAnimation, walkAnimationLeft, walkAnimationRight, AttackAnimation]
   );
 
   const fire = new AnimatableSprite(
-    new VectorsXY( 100, -(fireEffect.spriteSize.x-290)),
+    new Vector( 100, -(fireEffect.spriteSize.x-290)),
     fireEffect
   );
 
   const brownCloud = new AnimatableSprite(
-    new VectorsXY( 900,  -(brownCloudEffect.spriteSize.x-290)),
+    new Vector( 900,  -(brownCloudEffect.spriteSize.x-290)),
     brownCloudEffect
   );
 
   const collisionTiles = new CreateTiles(
     collisionMapData,
-    new VectorsXY( 32,  32 ),
+    new Vector( 32,  32 ),
     649,
     230,
     mapContentsOffSetPosition
@@ -56,7 +56,7 @@ const fightingDungeon = new Sprite(
 
 
 const skeleton = new Enemy(
-  new VectorsXY( 1400,  170 ),
+  new Vector( 1400,  170 ),
   SkeletonIdleLeftAnimation,
   arrayOfSkeletonAnimations
 );
@@ -73,7 +73,7 @@ const forestShopBackground = new Sprite(
 
 const forestCollisionTiles = new CreateTiles(
   collisionMapData,
-  new VectorsXY(3*24 ,  3*14 ),
+  new Vector(3*24 ,  3*14 ),
   649,
   230,
   mapContentsOffSetPosition

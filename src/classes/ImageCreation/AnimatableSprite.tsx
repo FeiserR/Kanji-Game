@@ -1,22 +1,24 @@
-import VectorsXY from "../Directions/VectorsXY";
-import CharacterAnimation from "../Animation/CharacterAnimation";
+//This class takes care of switching between the animations, drawing in the canvas and making sure the animations stops when it should
+
+import Vector from "../Directions/VectorsXY";
+import Animation from "../Animation/Animation";
 
 class AnimatableSprite {
-  currentAnimation: CharacterAnimation;
-  position: VectorsXY;
-  AnimationsArray: CharacterAnimation[] = [];
+  currentAnimation: Animation;
+  position: Vector;
+  AnimationsArray: Animation[] = [];
   constructor(
-    position: VectorsXY,
-    animation: CharacterAnimation,
-    AnimationsArray: CharacterAnimation[] = []
+    position: Vector,
+    animation: Animation,
+    AnimationsArray: Animation[] = []
   ) {
-    this.currentAnimation = new CharacterAnimation(
+    this.currentAnimation = new Animation(
       animation.image, animation.spriteSize.x, animation.frameDelay, animation.name, animation.shouldLoop
       );
     this.currentAnimation.startAnimation();
     this.position = position;
     this.AnimationsArray = AnimationsArray.map((animation) => {
-      return new CharacterAnimation(
+      return new Animation(
         animation.image, animation.spriteSize.x, animation.frameDelay, animation.name,  animation.shouldLoop
         );
     }
@@ -25,7 +27,7 @@ class AnimatableSprite {
 
   }
 
-  switchAnimation(animation: CharacterAnimation) {
+  switchAnimation(animation: Animation) {
     if (animation.name === this.currentAnimation.name) { return }
     // console.log("swiching animation");
     this.currentAnimation = animation;

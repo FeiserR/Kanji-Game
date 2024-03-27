@@ -1,14 +1,16 @@
-import CharacterAnimation from "../Animation/CharacterAnimation";
-import VectorsXY from "../Directions/VectorsXY";
+//separates the animatable sprites into what they are being used to represent
+
+import Animation from "../Animation/Animation";
+import Vector from "../Directions/VectorsXY";
 import AnimatableSprite from "./AnimatableSprite";
 
 class Being extends AnimatableSprite {
     health: number;
     dead: boolean = false;
   constructor(
-    position: VectorsXY,
-    animation: CharacterAnimation,
-    AnimationsArray: CharacterAnimation[] = [],
+    position: Vector,
+    animation: Animation,
+    AnimationsArray: Animation[] = [],
     health: number = 100,
   ) {
     super(position, animation, AnimationsArray);
@@ -18,9 +20,9 @@ class Being extends AnimatableSprite {
 
 class MainCharacter extends Being {
     constructor(
-        position: VectorsXY,
-        animation: CharacterAnimation,
-        AnimationsArray: CharacterAnimation[] = [],
+        position: Vector,
+        animation: Animation,
+        AnimationsArray: Animation[] = [],
         health: number = 100
     ) {
         super(position, animation, AnimationsArray, health);
@@ -29,9 +31,9 @@ class MainCharacter extends Being {
 
 class Enemy extends Being {
   constructor(
-    position: VectorsXY,
-    animation: CharacterAnimation,
-    AnimationsArray: CharacterAnimation[] = [],
+    position: Vector,
+    animation: Animation,
+    AnimationsArray: Animation[] = [],
     health: number = 10,
   ) {
     super(position, animation, AnimationsArray, health);

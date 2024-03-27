@@ -1,21 +1,21 @@
 import TileMap from "./TileMap";
 import InteractiveTile from "./InteractiveTile";
-import VectorsXY from "../Directions/VectorsXY";
+import Vector from "../Directions/VectorsXY";
 
 class CreateTiles {
   TilesMapData: number[];
-  sizeOfEachTile: VectorsXY;
+  sizeOfEachTile: Vector;
   tileNumber: number;
   MapWidth: number;
-  offsetPosition: VectorsXY;
+  offsetPosition: Vector;
   tilesPositions: InteractiveTile[] = [];
 
   constructor(
     TilesMapData: number[],
-    sizeOfEachTile: VectorsXY,
+    sizeOfEachTile: Vector,
     tileNumber: number,
     MapWidth: number,
-    offsetPosition: VectorsXY 
+    offsetPosition: Vector 
   ) {
     this.TilesMapData = TilesMapData;
     this.sizeOfEachTile = sizeOfEachTile;
@@ -31,7 +31,7 @@ class CreateTiles {
       row.forEach((tile, colIndex) => {
         if (tile === this.tileNumber) {
           let newTile = new InteractiveTile(
-            new VectorsXY(
+            new Vector(
               colIndex * this.sizeOfEachTile.x + this.offsetPosition.x,
               rowIndex * this.sizeOfEachTile.y + this.offsetPosition.y,
             ),
